@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { React, useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Navigate} from "react-router";
+
+import SignIn from './components/SignIn/SignIn';
+import HomePage from './components/HomePage/HomePage';
+
+const defaultTheme = createTheme();
 
 function App() {
+  const [token, setToken] = useState("");
+
+  const getAuth = () => {
+      const isAuth = localStorage.getItem("isAuth");
+
+      return isAuth === 'true';
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={
+            getAuth() ? <HomePage/> : <Navigate to="/login"/>
+          }/>
+          <Route path="/login" element={
+            getAuth() ?
+            <Navigate to="/"/> :
+            <SignIn
+              defaultTheme={defaultTheme}
+              setToken={setToken}
+            />}/>
+        </Routes>
+      </Router>
     </div>
   );
 }
