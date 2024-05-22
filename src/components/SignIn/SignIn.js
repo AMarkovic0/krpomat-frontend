@@ -13,9 +13,9 @@ import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
 
 import { login } from '../../api';
-import { Copyright } from '../../utils';
+import { TOKEN, Copyright } from '../../utils';
 
-export default function SignIn({ defaultTheme, setToken }) {
+export default function SignIn({ defaultTheme, setAuthenticated }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -25,14 +25,12 @@ export default function SignIn({ defaultTheme, setToken }) {
     const credentials = login(username, password).
       then((data) => {
         if (typeof data === 'undefined') {
-          console.log("No data found");
           return;
         }
 
-        setToken(credentials.password);
+        setAuthenticated(true);
+        localStorage.setItem(TOKEN(), data.token);
         localStorage.setItem("isAuth", true);
-        localStorage.setItem("username", data.username);
-        console.log("Successfull login");
       });
   };
 
