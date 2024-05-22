@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes } from "react-router-dom";
-import { Route, Navigate} from "react-router";
+import { Route, Navigate } from "react-router";
 
 import SignIn from './components/SignIn/SignIn';
 import HomePage from './components/HomePage/HomePage';
@@ -9,11 +9,10 @@ import HomePage from './components/HomePage/HomePage';
 const defaultTheme = createTheme();
 
 function App() {
-  const [token, setToken] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
 
   const getAuth = () => {
       const isAuth = localStorage.getItem("isAuth");
-
       return isAuth === 'true';
   }
 
@@ -21,6 +20,9 @@ function App() {
     <div>
       <Router>
         <Routes>
+          <Route index element={
+            getAuth() ? <HomePage/> : <Navigate to="/login"/>
+          }/>
           <Route path="/" element={
             getAuth() ? <HomePage/> : <Navigate to="/login"/>
           }/>
@@ -29,7 +31,7 @@ function App() {
             <Navigate to="/"/> :
             <SignIn
               defaultTheme={defaultTheme}
-              setToken={setToken}
+              setAuthenticated={setAuthenticated}
             />}/>
         </Routes>
       </Router>

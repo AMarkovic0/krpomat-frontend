@@ -14,8 +14,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 import { useNavigate } from "react-router-dom";
+
+import SalesByMachine from "./Sales/SalesByMachine";
+import Sales from "./Sales/Sales";
+import LinearIndeterminate from "./Spinner/Spinner";
+import { getSales } from '../../api';
+import { TOKEN } from "../../utils";
 
 const drawerWidth = 240;
 const navItems = ['SALES', 'ADD MACHINE', 'LOG OUT'];
@@ -29,6 +36,7 @@ function DrawerAppBar(props) {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [displayItem, setDisplayItem] = React.useState("SALES");
+  const [sales, setSales] = React.useState();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -73,6 +81,16 @@ function DrawerAppBar(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
+
+  React.useEffect(() => {
+    getSales({
+      start_date : "01.3.2020.",
+      end_date : "15.08.2024.",
+      machine_id : 3
+    }).then((resp) => {
+      setSales(resp);
+    })
+  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -133,11 +151,23 @@ function DrawerAppBar(props) {
       </nav>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        <Typography>
-          {displayItem === "SALES" ? <span>SALES</span> : <span/>}
+        <Box>
+          {displayItem === "SALES" ?
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={2} alignItems="top" columns={16}>
+                <Grid item xs={8}>
+                  {sales ? <SalesByMachine sales={sales}/> : <LinearIndeterminate/>}
+                </Grid>
+                <Grid item marginLeft="auto" xs={8}>
+                  {sales ? <Sales sales={sales}/> : <LinearIndeterminate/>}
+                </Grid>
+              </Grid>
+            </Box>
+            :
+            <span/>}
           {displayItem === "ADD MACHINE" ? <span>ADD MACHINE</span> : <span/>}
           {displayItem === "LOG OUT" ? <span>LOG OUT</span> : <span/>}
-        </Typography>
+        </Box>
       </Box>
     </Box>
   );

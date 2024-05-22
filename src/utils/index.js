@@ -14,3 +14,5 @@ export function Copyright() {
     </Typography>
   );
 }
+
+export function TOKEN() { return "booolassw"; };
