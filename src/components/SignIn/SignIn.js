@@ -25,12 +25,14 @@ export default function SignIn({ defaultTheme, setAuthenticated }) {
     const credentials = login(username, password).
       then((data) => {
         if (typeof data === 'undefined') {
+          localStorage.setItem("isAuth", false);
+          setAuthenticated(false);
           return;
         }
 
-        setAuthenticated(true);
-        localStorage.setItem(TOKEN(), data.token);
         localStorage.setItem("isAuth", true);
+        localStorage.setItem(TOKEN(), data.token);
+        setAuthenticated(true);
       });
   };
 

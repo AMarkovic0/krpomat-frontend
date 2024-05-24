@@ -46,10 +46,11 @@ function DrawerAppBar(props) {
     if (item === "LOG OUT") {
       localStorage.setItem("isAuth", false);
       localStorage.setItem("username", "");
+      props.setAuthenticated(false);
 
       refreshPage();
 
-      navigate("/login");
+      //navigate("/login");
     } else {
       setDisplayItem(item);
     }

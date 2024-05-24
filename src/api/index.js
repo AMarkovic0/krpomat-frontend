@@ -6,6 +6,18 @@ const HOST_ADDRESS = "192.168.1.9";
 const HOST_PORT = 5000;
 const HOST = HOST_ADDRESS + ":" + HOST_PORT;
 
+function handle401(error) {
+  if (error.response === undefined) {
+    return;
+  }
+
+  if (error.response.status === 401) {
+    const usr = localStorage.getItem("username");
+    const token = localStorage.getItem("token");
+    refresh(usr, token);
+  }
+}
+
 export const login = async (username, password) => {
   let resp = {};
 
@@ -13,6 +25,21 @@ export const login = async (username, password) => {
     await axios.post("http://" + HOST + "/login", {
       'username' : username,
       'password' : password
+    }).then((data) => { resp = data.data; });
+
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const refresh = async (username, token) => {
+  let resp = {};
+
+  try {
+    await axios.post("http://" + HOST + "/refresh", {
+      'username' : username,
+      'token' : token
     }).then((data) => { resp = data.data; });
 
     return resp;
@@ -42,6 +69,7 @@ export const getSales = async (salesData) => {
   })
   .catch((error) => {
     console.log(error);
+    handle401(error);
   });
 
   return resp;
@@ -66,6 +94,7 @@ export const getMachines = async () => {
   })
   .catch((error) => {
     console.log(error);
+    handle401(error);
   });
 
   return resp;

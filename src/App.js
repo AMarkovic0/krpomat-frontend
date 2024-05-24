@@ -21,10 +21,10 @@ function App() {
       <Router>
         <Routes>
           <Route index element={
-            getAuth() ? <HomePage/> : <Navigate to="/login"/>
+            getAuth() ? <HomePage setAuthenticated={setAuthenticated}/> : <Navigate to="/login"/>
           }/>
           <Route path="/" element={
-            getAuth() ? <HomePage/> : <Navigate to="/login"/>
+            getAuth() ? <HomePage setAuthenticated={setAuthenticated}/> : <Navigate to="/login"/>
           }/>
           <Route path="/login" element={
             getAuth() ?
