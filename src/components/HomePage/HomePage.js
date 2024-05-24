@@ -154,16 +154,31 @@ function DrawerAppBar(props) {
         <Toolbar />
         <Box>
           {displayItem === "SALES" ?
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={2} alignItems="top" columns={16}>
-                <Grid item xs={8}>
-                  {sales ? <SalesByMachine sales={sales}/> : <LinearIndeterminate/>}
+            <div>
+              <Box sx={{ p: 3 }}>
+                <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
+                  <Grid item>
+                    <DateSelector name="Start Date" onSet={setStartDate}/>
+                  </Grid>
+                  <Grid item>
+                    <DateSelector name="End Date" onSet={setEndDate}/>
+                  </Grid>
+                  <Grid item>
+                    <Button variant="contained" onClick={getSalesData}>CONFIRM</Button>
+                  </Grid>
                 </Grid>
-                <Grid item marginLeft="auto" xs={8}>
-                  {sales ? <Sales sales={sales}/> : <LinearIndeterminate/>}
+              </Box>
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2} alignItems="top" columns={16}>
+                  <Grid item xs={8}>
+                    {sales ? <SalesByMachine sales={sales}/> : <LinearIndeterminate/>}
+                  </Grid>
+                  <Grid item marginLeft="auto" xs={8}>
+                    {sales ? <Sales sales={sales}/> : <LinearIndeterminate/>}
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            </div>
             :
             <span/>}
           {displayItem === "ADD MACHINE" ? <span>ADD MACHINE</span> : <span/>}

@@ -29,7 +29,7 @@ export const login = async (username, password) => {
 
     return resp;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -44,7 +44,7 @@ export const refresh = async (username, token) => {
 
     return resp;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -61,14 +61,14 @@ export const getSales = async (salesData) => {
     },
     data: JSON.stringify(salesData)
   };
-  let resp = {};
+  let resp = [];
 
   await axios.request(config)
   .then((response) => {
     resp = response.data;
   })
   .catch((error) => {
-    console.log(error);
+    //console.log(error);
     handle401(error);
   });
 
@@ -86,14 +86,14 @@ export const getMachines = async () => {
       'X-HTTP-Method-Override' : 'GET'
     },
   };
-  let resp = {};
+  let resp = [];
 
   await axios.request(config)
   .then((response) => {
     resp = response.data;
   })
   .catch((error) => {
-    console.log(error);
+    //console.log(error);
     handle401(error);
   });
 
