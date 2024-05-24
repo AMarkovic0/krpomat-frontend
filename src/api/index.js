@@ -49,6 +49,7 @@ export const refresh = async (username, token) => {
 }
 
 export const getSales = async (salesData) => {
+  console.log(salesData);
   let token = localStorage.getItem(TOKEN());
   let config = {
     method: 'post',

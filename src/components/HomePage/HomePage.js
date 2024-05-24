@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 import SalesByMachine from "./Sales/SalesByMachine";
 import Sales from "./Sales/Sales";
 import LinearIndeterminate from "./Spinner/Spinner";
+import DateSelector from "./DateSelector/DateSelector";
+
 import { getSales } from '../../api';
 import { TOKEN } from "../../utils";
 
@@ -31,12 +33,30 @@ function refreshPage() {
   window.location.reload();
 }
 
+function getDate() {
+  const today = new Date();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
+  const date = today.getDate();
+  return `${date}.${month}.${year}.`;
+}
+
+function toDotDateFormat(date) {
+  if(typeof date === 'string' || date instanceof String) {
+    return date
+  }
+
+  return date.format("DD.MM.YYYY.");
+}
+
 function DrawerAppBar(props) {
   const { window } = props;
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [displayItem, setDisplayItem] = React.useState("SALES");
-  const [sales, setSales] = React.useState();
+  const [sales, setSales] = React.useState([]);
+  const [startDate, setStartDate] = React.useState("01.01.1980.");
+  const [endDate, setEndDate] = React.useState(getDate());
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -85,13 +105,23 @@ function DrawerAppBar(props) {
 
   React.useEffect(() => {
     getSales({
-      start_date : "01.3.2020.",
-      end_date : "15.08.2024.",
+      start_date : toDotDateFormat(startDate),
+      end_date : toDotDateFormat(endDate),
       machine_id : 3
     }).then((resp) => {
       setSales(resp);
     })
   }, []);
+
+  function getSalesData() {
+    getSales({
+      start_date : toDotDateFormat(startDate),
+      end_date : toDotDateFormat(endDate),
+      machine_id : 3
+    }).then((resp) => {
+      setSales(resp)
+    });
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
