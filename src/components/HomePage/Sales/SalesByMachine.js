@@ -59,7 +59,7 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                   {row.history ? row.history.map((historyRow) => (
-                    <TableRow key={historyRow.sale_date}>
+                    <TableRow key={row.history.indexOf(historyRow)}>
                       <TableCell component="th" scope="row">
                         {historyRow.sale_date}
                       </TableCell>
