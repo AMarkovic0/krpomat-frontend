@@ -36,7 +36,6 @@ export const login = async (username, password) => {
     return resp;
   } catch (error) {
     localStorage.setItem("isAuth", false);
-    //console.log(error);
   }
 }
 
@@ -51,12 +50,10 @@ export const refresh = async (username, token) => {
 
     return resp;
   } catch (error) {
-    //console.log(error);
   }
 }
 
 export const getSales = async (salesData) => {
-  console.log(salesData);
   let token = localStorage.getItem(TOKEN());
   let config = {
     method: 'post',
@@ -76,7 +73,6 @@ export const getSales = async (salesData) => {
     resp = response.data;
   })
   .catch((error) => {
-    //console.log(error);
     handle401(error);
   });
 
@@ -101,7 +97,6 @@ export const getMachines = async () => {
     resp = response.data;
   })
   .catch((error) => {
-    //console.log(error);
     handle401(error);
   });
 
