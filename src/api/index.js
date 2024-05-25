@@ -7,7 +7,7 @@ const HOST_PORT = 5000;
 const HOST = HOST_ADDRESS + ":" + HOST_PORT;
 
 function handle401(error) {
-  if (error.response === undefined) {
+  if (typeof error.response === 'undefined') {
     return;
   }
 
@@ -98,6 +98,36 @@ export const getMachines = async () => {
   })
   .catch((error) => {
     handle401(error);
+  });
+
+  return resp;
+}
+
+export const addMachine = async (machine_id, machine_name) => {
+  let token = localStorage.getItem(TOKEN());
+  let data = {
+    id: +machine_id,
+    machine_name: machine_name
+  };
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://' + HOST + '/AddMachine',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    },
+    data: data
+  };
+  let resp = {};
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
+    handle401(error);
+    resp = error;
   });
 
   return resp;

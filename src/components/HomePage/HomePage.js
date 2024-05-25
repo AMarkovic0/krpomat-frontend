@@ -20,8 +20,9 @@ import { useNavigate } from "react-router-dom";
 
 import SalesByMachine from "./Sales/SalesByMachine";
 import Sales from "./Sales/Sales";
-import LinearIndeterminate from "./Spinner/Spinner";
+import LinearIndeterminate from "./LoadBar/LoadBar";
 import DateSelector from "./DateSelector/DateSelector";
+import AddMachine from "./AddMachine/AddMachine";
 
 import { getSales } from '../../api';
 import { TOKEN, refreshPage } from "../../utils";
@@ -53,6 +54,7 @@ function DrawerAppBar(props) {
   const [sales, setSales] = React.useState([]);
   const [startDate, setStartDate] = React.useState("01.01.1980.");
   const [endDate, setEndDate] = React.useState(getDate());
+  const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -68,6 +70,7 @@ function DrawerAppBar(props) {
 
       //navigate("/login");
     } else {
+      setDialogOpen(item === "ADD MACHINE");
       setDisplayItem(item);
     }
   }
@@ -179,7 +182,7 @@ function DrawerAppBar(props) {
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
         <Box>
-          {displayItem === "SALES" ?
+          {displayItem === "SALES" || displayItem === "ADD MACHINE" ?
             <div>
               <Box sx={{ p: 3 }}>
                 <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
@@ -207,7 +210,7 @@ function DrawerAppBar(props) {
             </div>
             :
             <span/>}
-          {displayItem === "ADD MACHINE" ? <span>ADD MACHINE</span> : <span/>}
+          <AddMachine open={dialogOpen} setOpen={setDialogOpen}/>
           {displayItem === "LOG OUT" ? <span>LOG OUT</span> : <span/>}
         </Box>
       </Box>
