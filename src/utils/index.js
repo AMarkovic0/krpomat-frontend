@@ -15,4 +15,8 @@ export function Copyright() {
   );
 }
 
+export function refreshPage() {
+  window.location.reload();
+}
+
 export function TOKEN() { return "booolassw"; };

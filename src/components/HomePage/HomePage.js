@@ -24,14 +24,10 @@ import LinearIndeterminate from "./Spinner/Spinner";
 import DateSelector from "./DateSelector/DateSelector";
 
 import { getSales } from '../../api';
-import { TOKEN } from "../../utils";
+import { TOKEN, refreshPage } from "../../utils";
 
 const drawerWidth = 240;
 const navItems = ['SALES', 'ADD MACHINE', 'LOG OUT'];
-
-function refreshPage() {
-  window.location.reload();
-}
 
 function getDate() {
   const today = new Date();

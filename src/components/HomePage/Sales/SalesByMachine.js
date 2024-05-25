@@ -119,7 +119,7 @@ function addHistoryToMachine(machines, sale) {
 }
 
 export default function SalesByMachine({ sales }) {
-  const [gMachines, setMachines] = React.useState([]);
+  const [machines, setMachines] = React.useState([]);
 
   React.useEffect(() => {
     getMachines().then((machines) => {
@@ -129,7 +129,7 @@ export default function SalesByMachine({ sales }) {
 
       setMachines(machines);
     })
-  }, []);
+  }, [sales]);
 
   return (
     <TableContainer component={Paper}>
@@ -146,7 +146,7 @@ export default function SalesByMachine({ sales }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {gMachines.map((row) => (
+          {machines.map((row) => (
             <Row key={row.machine_id} row={row} />
           ))}
         </TableBody>

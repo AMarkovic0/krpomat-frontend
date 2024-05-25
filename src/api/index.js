@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { TOKEN } from '../utils';
+import { TOKEN, refreshPage } from '../utils';
 
 const HOST_ADDRESS = "192.168.1.9";
 const HOST_PORT = 5000;
@@ -14,6 +14,12 @@ function handle401(error) {
   if (error.response.status === 401) {
     const usr = localStorage.getItem("username");
     const token = localStorage.getItem("token");
+
+    if (token === null) {
+        localStorage.setItem("isAuth", false);
+        refreshPage();
+    }
+
     refresh(usr, token);
   }
 }
@@ -29,6 +35,7 @@ export const login = async (username, password) => {
 
     return resp;
   } catch (error) {
+    localStorage.setItem("isAuth", false);
     //console.log(error);
   }
 }
