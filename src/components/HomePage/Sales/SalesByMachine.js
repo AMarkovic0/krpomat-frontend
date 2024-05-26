@@ -39,6 +39,8 @@ function Row(props) {
         <TableCell align="right">{row.p1}</TableCell>
         <TableCell align="right">{row.p2}</TableCell>
         <TableCell align="right">{row.p3}</TableCell>
+        <TableCell align="right">{row.p4 ? row.p4 : "N/A"}</TableCell>
+        <TableCell align="right">{row.p5 ? row.p5 : "N/A"}</TableCell>
         <TableCell align="right">{row.sale_date}</TableCell>
       </TableRow>
       <TableRow>
@@ -55,6 +57,8 @@ function Row(props) {
                     <TableCell align="right">Product 1</TableCell>
                     <TableCell align="right">Product 2</TableCell>
                     <TableCell align="right">Product 3</TableCell>
+                    <TableCell align="right">Product 4</TableCell>
+                    <TableCell align="right">Product 5</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -66,6 +70,8 @@ function Row(props) {
                       <TableCell align="right">{historyRow.p1}</TableCell>
                       <TableCell align="right">{historyRow.p2}</TableCell>
                       <TableCell align="right">{historyRow.p3}</TableCell>
+                      <TableCell align="right">{historyRow.p4 ? historyRow.p4 : "N/A"}</TableCell>
+                      <TableCell align="right">{historyRow.p5 ? historyRow.p5 : "N/A"}</TableCell>
                     </TableRow>
                   )) : <TableRow key="1"/>}
                 </TableBody>
@@ -85,12 +91,16 @@ Row.propTypes = {
     p1: PropTypes.number.isRequired,
     p2: PropTypes.number.isRequired,
     p3: PropTypes.number.isRequired,
+    p4: PropTypes.number,
+    p5: PropTypes.number,
     sale_date: PropTypes.string.isRequired,
     history: PropTypes.arrayOf(
       PropTypes.shape({
         p1: PropTypes.number.isRequired,
         p2: PropTypes.number.isRequired,
         p3: PropTypes.number.isRequired,
+        p4: PropTypes.number,
+        p5: PropTypes.number,
         sale_date: PropTypes.string.isRequired,
       }),
     ),
@@ -110,6 +120,8 @@ function addHistoryToMachine(machines, sale) {
           p1: sale.p1,
           p2: sale.p2,
           p3: sale.p3,
+          p4: sale.p4,
+          p5: sale.p5,
           sale_date: sale.sale_date
         });
       }
@@ -142,6 +154,8 @@ export default function SalesByMachine({ sales }) {
             <TableCell align="right">Product 1</TableCell>
             <TableCell align="right">Product 2</TableCell>
             <TableCell align="right">Product 3</TableCell>
+            <TableCell align="right">Product 4</TableCell>
+            <TableCell align="right">Product 5</TableCell>
             <TableCell align="right">Last Time Online</TableCell>
           </TableRow>
         </TableHead>

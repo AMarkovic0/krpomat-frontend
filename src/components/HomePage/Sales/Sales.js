@@ -32,6 +32,18 @@ const columns = [
     align: 'right',
   },
   {
+    id: 'p4',
+    label: 'Product 4',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'p5',
+    label: 'Product 5',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
     id: 'sale_date',
     label: 'Date',
     minWidth: 170,
@@ -82,7 +94,7 @@ export default function Sales({ sales }) {
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value === 'number'
                             ? column.format(value)
-                            : value}
+                            : ((value !== null) ? value : "N/A")}
                         </TableCell>
                       );
                     })}

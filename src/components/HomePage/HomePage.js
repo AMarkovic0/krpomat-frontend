@@ -15,6 +15,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import { useNavigate } from "react-router-dom";
 
@@ -55,6 +57,8 @@ function DrawerAppBar(props) {
   const [startDate, setStartDate] = React.useState("01.01.1980.");
   const [endDate, setEndDate] = React.useState(getDate());
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [showByMachine, setShowByMachine] = React.useState(true);
+  const [showRecord, setShowRecord] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -195,16 +199,34 @@ function DrawerAppBar(props) {
                   <Grid item>
                     <Button variant="contained" onClick={getSalesData}>CONFIRM</Button>
                   </Grid>
+                  <Grid item>
+                    <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
+                      <Grid item>
+                        <FormControlLabel
+                          control={<Checkbox defaultChecked/>}
+                          label="By Machine"
+                          onChange={(event) => {setShowByMachine(event.target.checked)}}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <FormControlLabel
+                          control={<Checkbox/>}
+                          label="Full Record"
+                          onChange={(event) => {setShowRecord(event.target.checked)}}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Box>
               <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} alignItems="top" columns={16}>
-                  <Grid item xs={8}>
+                  {showByMachine ? <Grid item xs={showRecord ? 8 : 16}>
                     {sales ? <SalesByMachine sales={sales}/> : <LinearIndeterminate/>}
-                  </Grid>
-                  <Grid item marginLeft="auto" xs={8}>
+                  </Grid> : <span/>}
+                  {showRecord ? <Grid item marginLeft="auto" xs={showByMachine ? 8 : 16}>
                     {sales ? <Sales sales={sales}/> : <LinearIndeterminate/>}
-                  </Grid>
+                  </Grid> : <span/>}
                 </Grid>
               </Box>
             </div>
