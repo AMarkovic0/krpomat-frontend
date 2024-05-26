@@ -8,7 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { addMachine } from '../../../api';
-import MachineAddAlert from './Popup/Popup'
+import MachineAddAlert from './Popup/Popup';
+import { refreshPage } from '../../../utils';
 
 export default function AddMachine({ open, setOpen }) {
   const [idErr, setIdError] = React.useState(false);
@@ -55,6 +56,7 @@ export default function AddMachine({ open, setOpen }) {
               }
 
               setOpenAlert(true);
+              refreshPage();
             });
           },
         }}
