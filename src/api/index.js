@@ -103,11 +103,16 @@ export const getMachines = async () => {
   return resp;
 }
 
-export const addMachine = async (machine_id, machine_name) => {
+export const addMachine = async (machine_id, machine_name, username) => {
+  if (typeof username === 'undefined') {
+    username = localStorage.getItem("username");
+  }
+
   let token = localStorage.getItem(TOKEN());
   let data = {
     id: +machine_id,
-    machine_name: machine_name
+    machine_name: machine_name,
+    username: username
   };
   let config = {
     method: 'post',

@@ -43,6 +43,7 @@ export default function SignIn({ defaultTheme, setAuthenticated }) {
         }
 
         localStorage.setItem("isAuth", true);
+        localStorage.setItem("username", data.username);
         localStorage.setItem(TOKEN(), data.token);
         setAuthenticated(true);
       });

@@ -46,7 +46,7 @@ export default function AddMachine({ open, setOpen }) {
             const machine = Object.fromEntries(formData.entries());
 
             handleClose();
-            addMachine(machine.id, machine.name).then((err) => {
+            addMachine(machine.id, machine.name, machine.user).then((err) => {
               if (typeof err.response === 'undefined') {
                 setIdError(false);
               } else {
@@ -67,6 +67,19 @@ export default function AddMachine({ open, setOpen }) {
             To add a new machine, please enter machine ID and name here.
             If successful, your machine will appear in the analityc section (tables).
           </DialogContentText>
+          {localStorage.getItem("username") === "admin" ?
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="user"
+              name="user"
+              label="User Name"
+              type="text"
+              fullWidth
+              variant="standard"
+            /> : <span/>
+          }
           <TextField
             autoFocus
             required

@@ -56,6 +56,24 @@ const columns = [
 export default function Sales({ sales }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [machines, setMachines] = React.useState([]);
+
+  React.useEffect(() => {
+    let machines = [];
+
+    if (localStorage.getItem("username") !== "admin") {
+      for (var i in sales) {
+        if (sales[i].username === localStorage.getItem("username")) {
+          machines.push(sales[i]);
+        }
+      }
+    } else {
+      machines = sales;
+    }
+
+    setMachines(machines);
+    }, [sales]);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -84,10 +102,10 @@ export default function Sales({ sales }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sales.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {machines.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={sales.indexOf(row)}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={machines.indexOf(row)}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -107,7 +125,7 @@ export default function Sales({ sales }) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={sales.length}
+        count={machines.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
