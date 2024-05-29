@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 
 import { getSales, getMachines } from '../../../api';
 
@@ -132,6 +134,15 @@ function addHistoryToMachine(machines, sale) {
 
 export default function SalesByMachine({ sales }) {
   const [machines, setMachines] = React.useState([]);
+  const [filterActive, setFilterActive] = React.useState(false);
+
+  const filterNoProduct = (machine) => {
+    console.log(machine.p1, machine.p2, machine.p3, machine.p4, machine.p5);
+    return (filterActive &&
+      !(machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
+      (machine.p4 != null && machine.p4 === 0) ||
+      (machine.p5 != null && machine.p5 === 0)));
+  };
 
   React.useEffect(() => {
     getMachines().then((machines) => {
@@ -151,16 +162,31 @@ export default function SalesByMachine({ sales }) {
         machines = new_machines;
       }
 
-      setMachines(machines);
+      let new_machines = [];
+      for (var i in machines) {
+        if (filterNoProduct(machines[i])) {continue;}
+        new_machines.push(machines[i]);
+      }
+
+      setMachines(new_machines);
     })
-  }, [sales]);
+  }, [sales, filterActive]);
 
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
+            <TableCell>
+              <IconButton
+                aria-label="expand row"
+                size="small"
+                onClick={() => {
+                  setFilterActive(!filterActive);
+              }}>
+                {filterActive ? <FilterAltOffIcon/> : <FilterAltIcon/>}
+              </IconButton>
+            </TableCell>
             <TableCell>Machine Name</TableCell>
             <TableCell align="right">Machine ID</TableCell>
             <TableCell align="right">Product 1</TableCell>
