@@ -15,12 +15,25 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import PublicIcon from '@mui/icons-material/Public';
+import PublicOffIcon from '@mui/icons-material/PublicOff';
 
 import { getSales, getMachines } from '../../../api';
+
+function dateToIso(date) {
+  let sdate = date.split(" ");
+  return sdate[0].split(".").reverse().join("-") + " " + sdate[1];
+}
+
+const MIN30 = 30*60000;
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
+  const checkOnline = (date) => {
+    return (new Date()).getTime() > (new Date(dateToIso(date)).getTime() + MIN30);
+  }
 
   return (
     <React.Fragment>
@@ -32,6 +45,15 @@ function Row(props) {
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row" align="center">
+          <IconButton
+            aria-label="expand row"
+            size="small"
+          >
+            {checkOnline(row.sale_date) ?
+            <PublicOffIcon/> : <PublicIcon/>}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -187,6 +209,7 @@ export default function SalesByMachine({ sales }) {
                 {filterActive ? <FilterAltOffIcon/> : <FilterAltIcon/>}
               </IconButton>
             </TableCell>
+            <TableCell>Online Status</TableCell>
             <TableCell>Machine Name</TableCell>
             <TableCell align="right">Machine ID</TableCell>
             <TableCell align="right">Product 1</TableCell>
