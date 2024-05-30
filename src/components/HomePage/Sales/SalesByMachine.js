@@ -19,11 +19,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 
 import { getSales, getMachines } from '../../../api';
-
-function dateToIso(date) {
-  let sdate = date.split(" ");
-  return sdate[0].split(".").reverse().join("-") + " " + sdate[1];
-}
+import { dateToIso } from '../../../utils';
 
 const MIN30 = 30*60000;
 
@@ -53,7 +49,7 @@ function Row(props) {
             size="small"
           >
             {checkOnline(row.sale_date) ?
-            <PublicOffIcon/> : <PublicIcon/>}
+            <PublicOffIcon/> : <PublicIcon color="primary"/>}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -159,7 +155,6 @@ export default function SalesByMachine({ sales }) {
   const [filterActive, setFilterActive] = React.useState(false);
 
   const filterNoProduct = (machine) => {
-    console.log(machine.p1, machine.p2, machine.p3, machine.p4, machine.p5);
     return (filterActive &&
       !(machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
       (machine.p4 != null && machine.p4 === 0) ||

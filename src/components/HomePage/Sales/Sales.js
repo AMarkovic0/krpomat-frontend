@@ -7,8 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import IconButton from '@mui/material/IconButton';
 
 import { getSales } from '../../../api';
+import { dateToIso } from '../../../utils';
 
 const columns = [
   { id: 'machine_id', label: 'Machine ID', minWidth: 170 },
@@ -84,6 +87,27 @@ export default function Sales({ sales }) {
     setPage(0);
   };
 
+  const in24h = (date) => {
+    return (new Date()).getTime() < ((new Date(dateToIso(date))).getTime() + 1440*60000);
+  };
+
+  const sumPtoday = (p) => {
+    let now = new Date();
+    let sum = 0;
+
+    for (var i in sales) {
+        if (in24h(sales[i].sale_date)) {
+          if (sales[i][p] === "N/A") {
+            continue;
+          }
+
+          sum = sum + sales[i][p];
+        }
+    }
+
+    return sum;
+  };
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -122,6 +146,22 @@ export default function Sales({ sales }) {
           </TableBody>
         </Table>
       </TableContainer>
+      <Table stickyHeader aria-label="sticky table footer">
+        <TableCell/>
+        <TableCell component="th" scope="row">
+          <IconButton
+            aria-label="expand row"
+            size="small"
+          >
+            <FunctionsIcon/>
+          </IconButton>
+        </TableCell>
+        <TableCell>{sumPtoday("p1")}</TableCell>
+        <TableCell>{sumPtoday("p2")}</TableCell>
+        <TableCell>{sumPtoday("p3")}</TableCell>
+        <TableCell>{sumPtoday("p4")}</TableCell>
+        <TableCell>{sumPtoday("p5")}</TableCell>
+      </Table>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

@@ -20,3 +20,9 @@ export function refreshPage() {
 }
 
 export function TOKEN() { return "booolassw"; };
+
+export function dateToIso(date) {
+  let sdate = date.split(" ");
+  return sdate[0].split(".").reverse().join("-") + (sdate[1] ? (" " + sdate[1]) : "");
+}
+
