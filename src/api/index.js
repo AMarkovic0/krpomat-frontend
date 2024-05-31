@@ -131,7 +131,59 @@ export const addMachine = async (machine_id, machine_name, username) => {
     resp = response.data;
   })
   .catch((error) => {
-    handle401(error);
+    resp = error;
+  });
+
+  return resp;
+}
+
+export const editMachine = async (machine_id, machine_name) => {
+  let token = localStorage.getItem(TOKEN());
+  let data = {
+    id: +machine_id,
+    machine_name: machine_name
+  };
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://' + HOST + '/EditMachineName',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    },
+    data: data
+  };
+  let resp = {};
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
+    resp = error;
+  });
+
+  return resp;
+}
+
+export const deleteMachine = async (machine_id) => {
+  let token = localStorage.getItem(TOKEN());
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://' + HOST + '/DeleteMachine/' + machine_id.toString(),
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    }
+  };
+  let resp = {};
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
     resp = error;
   });
 
