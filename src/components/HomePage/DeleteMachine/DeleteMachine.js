@@ -10,7 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { deleteMachine } from '../../../api';
 import { refreshPage } from '../../../utils';
 
-export default function AddMachine({ open, setOpen }) {
+export default function DeleteMachine({ open, setOpen }) {
+  const [idErr, setIdError] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -29,6 +31,14 @@ export default function AddMachine({ open, setOpen }) {
 
             handleClose();
             deleteMachine(machine.id).then((err) => {
+              if (typeof err.response === 'undefined') {
+                setIdError(false);
+              } else {
+                if (err.response.status === 500) {
+                  setIdError(true);
+                }
+              }
+
               refreshPage();
             });
           },
@@ -37,8 +47,12 @@ export default function AddMachine({ open, setOpen }) {
         <DialogTitle>Edit Machine Name</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To edit machine name, please enter exiting machine ID and a new name.
+            To delete machine, please enter exiting machine ID.
           </DialogContentText>
+            type="text"
+            fullWidth
+            variant="standard"
+          />
           <TextField
             autoFocus
             required

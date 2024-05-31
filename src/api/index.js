@@ -189,3 +189,33 @@ export const deleteMachine = async (machine_id) => {
 
   return resp;
 }
+
+export const addUser = async (name, pass) => {
+  let token = localStorage.getItem(TOKEN());
+  let data = {
+    username: name,
+    password: pass
+  };
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://' + HOST + '/AddUser',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    },
+    data: data
+  };
+  let resp = {};
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
+    resp = error;
+  });
+
+  return resp;
+}
+
