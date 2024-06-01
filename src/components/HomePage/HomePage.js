@@ -17,8 +17,10 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { useNavigate } from "react-router-dom";
+import {CSVLink, CSVDownload} from 'react-csv';
 
 import SalesByMachine from "./Sales/SalesByMachine";
 import Sales from "./Sales/Sales";
@@ -139,6 +141,22 @@ function DrawerAppBar(props) {
     });
   }
 
+  function filterCSVData(full_sales) {
+    let machines = [];
+
+    if (localStorage.getItem("username") !== "admin") {
+      for (var i in full_sales) {
+        if (full_sales[i].username === localStorage.getItem("username")) {
+          machines.push(full_sales[i]);
+        }
+      }
+    } else {
+      machines = sales;
+    }
+
+    return machines;
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -213,6 +231,19 @@ function DrawerAppBar(props) {
                   </Grid>
                   <Grid item>
                     <Button variant="contained" onClick={getSalesData}>CONFIRM</Button>
+                  </Grid>
+                  <Grid item>
+                    <CSVLink
+                      data={filterCSVData(sales)}
+                      filename={
+                        "krpomat-sales-" + (new Date()).toISOString().split('T')[0] + ".csv"
+                      }
+                      target="_blank"
+                    >
+                      <Button variant="contained" endIcon={<FileDownloadIcon/>}>
+                        DOWNLOAD CSV
+                      </Button>
+                    </CSVLink>
                   </Grid>
                   <Grid item>
                     <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
