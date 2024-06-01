@@ -125,7 +125,6 @@ function DrawerAppBar(props) {
     getSales({
       start_date : toDotDateFormat(startDate),
       end_date : toDotDateFormat(endDate),
-      machine_id : 3
     }).then((resp) => {
       setSales(resp);
     })
@@ -135,7 +134,6 @@ function DrawerAppBar(props) {
     getSales({
       start_date : toDotDateFormat(startDate),
       end_date : toDotDateFormat(endDate),
-      machine_id : 3
     }).then((resp) => {
       setSales(resp)
     });
