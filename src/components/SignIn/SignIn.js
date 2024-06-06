@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
+//import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -34,8 +34,8 @@ export default function SignIn({ defaultTheme, setAuthenticated }) {
     const username = data.get("username");
     const password = data.get("password");
 
-    const credentials = login(username, password).
-      then((data) => {
+    login(username, password)
+      .then((data) => {
         if (typeof data === 'undefined') {
           localStorage.setItem("isAuth", false);
           setAuthenticated(false);

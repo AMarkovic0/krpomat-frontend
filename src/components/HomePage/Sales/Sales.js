@@ -10,7 +10,6 @@ import TableRow from '@mui/material/TableRow';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import IconButton from '@mui/material/IconButton';
 
-import { getSales } from '../../../api';
 import { dateToIso } from '../../../utils';
 
 const columns = [
@@ -92,7 +91,6 @@ export default function Sales({ sales }) {
   };
 
   const sumPtoday = (p) => {
-    let now = new Date();
     let sum = 0;
 
     for (var i in sales) {

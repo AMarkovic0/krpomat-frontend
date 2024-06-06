@@ -19,8 +19,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-import { useNavigate } from "react-router-dom";
-import {CSVLink, CSVDownload} from 'react-csv';
+import { CSVLink } from 'react-csv';
 
 import SalesByMachine from "./Sales/SalesByMachine";
 import Sales from "./Sales/Sales";
@@ -32,7 +31,7 @@ import DeleteMachine from "./DeleteMachine/DeleteMachine";
 import AddUser from "./AddUser/AddUser";
 
 import { getSales } from '../../api';
-import { TOKEN, refreshPage } from "../../utils";
+import { refreshPage } from "../../utils";
 
 const drawerWidth = 240;
 
@@ -54,7 +53,6 @@ function toDotDateFormat(date) {
 
 function DrawerAppBar(props) {
   const { window } = props;
-  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [displayItem, setDisplayItem] = React.useState("SALES");
   const [sales, setSales] = React.useState([]);
@@ -83,8 +81,6 @@ function DrawerAppBar(props) {
       props.setAuthenticated(false);
 
       refreshPage();
-
-      //navigate("/login");
     } else {
       setDialogOpen(item === "ADD MACHINE");
       setDialogOpenEdit(item === "EDIT MACHINE");
@@ -128,7 +124,7 @@ function DrawerAppBar(props) {
     }).then((resp) => {
       setSales(resp);
     })
-  }, []);
+  });
 
   function getSalesData() {
     getSales({

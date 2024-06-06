@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes } from "react-router-dom";
 import { Route, Navigate } from "react-router";
 
@@ -9,7 +9,8 @@ import HomePage from './components/HomePage/HomePage';
 const defaultTheme = createTheme();
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
+  // eslint-disable-next-line
+  const [_authenticated, setAuthenticated] = useState(false);
 
   const getAuth = () => {
       const isAuth = localStorage.getItem("isAuth");

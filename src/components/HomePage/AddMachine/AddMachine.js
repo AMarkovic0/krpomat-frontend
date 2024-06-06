@@ -27,11 +27,11 @@ export default function AddMachine({ open, setOpen }) {
   return (
     <React.Fragment>
       <MachineAddAlert
-        msg={idErr
-          && "Machine Add failed - ID already exists"
+        msg={(idErr
+          && "Machine Add failed - ID already exists")
           || "Successfully added a new machine"
         }
-        severity={idErr && "error" || "success"}
+        severity={(idErr && "error") || "success"}
         open={openAlert}
         resetAlert={resetAlert}
       />

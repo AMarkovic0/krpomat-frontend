@@ -11,6 +11,7 @@ import { deleteMachine } from '../../../api';
 import { refreshPage } from '../../../utils';
 
 export default function DeleteMachine({ open, setOpen }) {
+  // eslint-disable-next-line
   const [idErr, setIdError] = React.useState(false);
 
   const handleClose = () => {
@@ -46,13 +47,13 @@ export default function DeleteMachine({ open, setOpen }) {
       >
         <DialogTitle>Edit Machine Name</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To delete machine, please enter exiting machine ID.
-          </DialogContentText>
+          <DialogContentText
             type="text"
             fullWidth
             variant="standard"
-          />
+          >
+            To delete machine, please enter exiting machine ID.
+          </DialogContentText>
           <TextField
             autoFocus
             required

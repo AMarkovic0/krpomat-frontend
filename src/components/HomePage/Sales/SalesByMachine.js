@@ -18,7 +18,7 @@ import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 
-import { getSales, getMachines } from '../../../api';
+import { getMachines } from '../../../api';
 import { dateToIso } from '../../../utils';
 
 const MIN30 = 30*60000;
@@ -154,14 +154,14 @@ export default function SalesByMachine({ sales }) {
   const [machines, setMachines] = React.useState([]);
   const [filterActive, setFilterActive] = React.useState(false);
 
-  const filterNoProduct = (machine) => {
-    return (filterActive &&
-      !(machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
-      (machine.p4 != null && machine.p4 === 0) ||
-      (machine.p5 != null && machine.p5 === 0)));
-  };
-
   React.useEffect(() => {
+    const filterNoProduct = (machine) => {
+      return (filterActive &&
+        !(machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
+        (machine.p4 != null && machine.p4 === 0) ||
+        (machine.p5 != null && machine.p5 === 0)));
+    };
+
     getMachines().then((machines) => {
       sales.forEach((sale) => {
         machines = addHistoryToMachine(machines, sale);
@@ -180,9 +180,9 @@ export default function SalesByMachine({ sales }) {
       }
 
       let new_machines = [];
-      for (var i in machines) {
-        if (filterNoProduct(machines[i])) {continue;}
-        new_machines.push(machines[i]);
+      for (var j in machines) {
+        if (filterNoProduct(machines[j])) {continue;}
+        new_machines.push(machines[j]);
       }
 
       setMachines(new_machines);

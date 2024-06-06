@@ -8,7 +8,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { addUser } from '../../../api';
-import { refreshPage } from '../../../utils';
 
 export default function AddMachine({ open, setOpen }) {
   const handleClose = () => {
