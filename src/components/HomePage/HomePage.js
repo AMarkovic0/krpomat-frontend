@@ -124,7 +124,7 @@ function DrawerAppBar(props) {
     }).then((resp) => {
       setSales(resp);
     })
-  });
+  }, []);
 
   function getSalesData() {
     getSales({
@@ -133,22 +133,6 @@ function DrawerAppBar(props) {
     }).then((resp) => {
       setSales(resp)
     });
-  }
-
-  function filterCSVData(full_sales) {
-    let machines = [];
-
-    if (localStorage.getItem("username") !== "admin") {
-      for (var i in full_sales) {
-        if (full_sales[i].username === localStorage.getItem("username")) {
-          machines.push(full_sales[i]);
-        }
-      }
-    } else {
-      machines = sales;
-    }
-
-    return machines;
   }
 
   return (
@@ -228,7 +212,7 @@ function DrawerAppBar(props) {
                   </Grid>
                   <Grid item>
                     <CSVLink
-                      data={filterCSVData(sales)}
+                      data={sales}
                       filename={
                         "krpomat-sales-" + (new Date()).toISOString().split('T')[0] + ".csv"
                       }

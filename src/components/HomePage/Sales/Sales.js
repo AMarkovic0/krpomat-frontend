@@ -61,20 +61,8 @@ export default function Sales({ sales }) {
   const [machines, setMachines] = React.useState([]);
 
   React.useEffect(() => {
-    let machines = [];
-
-    if (localStorage.getItem("username") !== "admin") {
-      for (var i in sales) {
-        if (sales[i].username === localStorage.getItem("username")) {
-          machines.push(sales[i]);
-        }
-      }
-    } else {
-      machines = sales;
-    }
-
-    setMachines(machines);
-    }, [sales]);
+    setMachines(sales);
+  }, [sales]);
 
 
   const handleChangePage = (event, newPage) => {

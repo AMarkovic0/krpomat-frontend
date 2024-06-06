@@ -167,19 +167,8 @@ export default function SalesByMachine({ sales }) {
         machines = addHistoryToMachine(machines, sale);
       });
 
-      if (localStorage.getItem("username") !== "admin") {
-        let new_machines = [];
-
-        for (var i in machines) {
-          if (machines[i].username === localStorage.getItem("username")) {
-            new_machines.push(machines[i]);
-          }
-        }
-
-        machines = new_machines;
-      }
-
       let new_machines = [];
+
       for (var j in machines) {
         if (filterNoProduct(machines[j])) {continue;}
         new_machines.push(machines[j]);
