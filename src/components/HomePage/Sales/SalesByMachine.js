@@ -90,8 +90,12 @@ function Row(props) {
                       <TableCell align="right">{historyRow.p1}</TableCell>
                       <TableCell align="right">{historyRow.p2}</TableCell>
                       <TableCell align="right">{historyRow.p3}</TableCell>
-                      <TableCell align="right">{historyRow.p4 ? historyRow.p4 : "N/A"}</TableCell>
-                      <TableCell align="right">{historyRow.p5 ? historyRow.p5 : "N/A"}</TableCell>
+                      <TableCell align="right">
+                        {(historyRow.p4 !== null) ? historyRow.p4 : "N/A"}
+                      </TableCell>
+                      <TableCell align="right">
+                        {(historyRow.p5 !== null) ? historyRow.p5 : "N/A"}
+                      </TableCell>
                     </TableRow>
                   )) : <TableRow key="1"/>}
                 </TableBody>
