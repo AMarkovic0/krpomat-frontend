@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import { TOKEN, refreshPage } from '../utils';
 
-const HOST_ADDRESS = "192.168.1.9";
-const HOST_PORT = 5000;
+const HOST_ADDRESS = (process.env.KRPOMAT_TEST === "true") ? "app.krpomat.rs" : "192.168.1.9";
+const HOST_PORT = (process.env.KRPOMAT_TEST === "true") ? 443 : 5000;
 const HOST = HOST_ADDRESS + ":" + HOST_PORT;
 
 function handle401(error) {
