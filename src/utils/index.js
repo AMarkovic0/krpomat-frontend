@@ -26,3 +26,6 @@ export function dateToIso(date) {
   return sdate[0].split(".").reverse().join("-") + (sdate[1] ? (" " + sdate[1]) : "");
 }
 
+export function isProd() {
+  return (process.env.NODE_ENV === "production");
+}
