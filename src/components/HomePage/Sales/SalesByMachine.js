@@ -17,19 +17,21 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 import { getMachines } from '../../../api';
 import { dateToIso } from '../../../utils';
 
 const MIN30 = 30*60000;
 
+function checkOnline(date) {
+  return (new Date()).getTime() > (new Date(dateToIso(date)).getTime() + MIN30);
+}
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
-
-  const checkOnline = (date) => {
-    return (new Date()).getTime() > (new Date(dateToIso(date)).getTime() + MIN30);
-  }
 
   return (
     <React.Fragment>
@@ -156,47 +158,61 @@ function addHistoryToMachine(machines, sale) {
 
 export default function SalesByMachine({ sales }) {
   const [machines, setMachines] = React.useState([]);
-  const [filterActive, setFilterActive] = React.useState(false);
+  const [filterEmpty, setFilterEmpty] = React.useState(false);
+  const [filterOnline, setFilterOnline] = React.useState(false);
 
   React.useEffect(() => {
     const filterNoProduct = (machine) => {
-      return (filterActive &&
+      return (filterEmpty &&
         !(machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
         (machine.p4 != null && machine.p4 === 0) ||
         (machine.p5 != null && machine.p5 === 0)));
     };
+
+    const onlineFilter = (machine) => {
+        return (filterOnline && !checkOnline(machine.sale_date));
+    }
 
     getMachines().then((machines) => {
       sales.forEach((sale) => {
         machines = addHistoryToMachine(machines, sale);
       });
 
+      let tmp_machines = [];
       let new_machines = [];
 
       for (var j in machines) {
         if (filterNoProduct(machines[j])) {continue;}
-        new_machines.push(machines[j]);
+        tmp_machines.push(machines[j]);
+      }
+
+      for (var i in tmp_machines) {
+        if (onlineFilter(tmp_machines[i])) {continue;}
+        new_machines.push(tmp_machines[i]);
       }
 
       setMachines(new_machines);
     })
-  }, [sales, filterActive]);
+  }, [sales, filterEmpty, filterOnline]);
 
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell>
-              <IconButton
-                aria-label="expand row"
-                size="small"
-                onClick={() => {
-                  setFilterActive(!filterActive);
-              }}>
-                {filterActive ? <FilterAltOffIcon/> : <FilterAltIcon/>}
-              </IconButton>
+            <TableCell align="center" colSpan={2}>
+              <FormControlLabel
+                control={<Switch onChange={(event) => {setFilterOnline(event.target.checked)}}/>} label="Show Offline"
+              />
             </TableCell>
+            <TableCell align="center" colSpan={3}>
+              <FormControlLabel
+                control={<Switch onChange={(event) => {setFilterEmpty(event.target.checked)}}/>} label="Show Empty"
+              />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell/>
             <TableCell>Online Status</TableCell>
             <TableCell>Machine Name</TableCell>
             <TableCell align="right">Machine ID</TableCell>
