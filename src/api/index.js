@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import { TOKEN, refreshPage, isProd } from '../utils';
 
-const HOST_ADDRESS = isProd() ? "68.183.77.223" : "192.168.1.9";
+const HOST_ADDRESS = isProd() ? "app.krpomat.rs" : "192.168.1.9";
 const HOST_PORT = isProd() ? 443 : 5000;
-const HOST = HOST_ADDRESS + ":" + HOST_PORT;
+const HOST = "https://" + HOST_ADDRESS + ":" + HOST_PORT + "/api/v1";
 
 function handle401(error) {
   if (typeof error.response === 'undefined') {
@@ -28,7 +28,7 @@ export const login = async (username, password) => {
   let resp = {};
 
   try {
-    await axios.post("http://" + HOST + "/login", {
+    await axios.post(HOST + "/login", {
       'username' : username,
       'password' : password
     }).then((data) => { resp = data.data; });
@@ -43,7 +43,7 @@ export const refresh = async (username, token) => {
   let resp = {};
 
   try {
-    await axios.post("http://" + HOST + "/refresh", {
+    await axios.post(HOST + "/refresh", {
       'username' : username,
       'token' : token
     }).then((data) => { resp = data.data; });
@@ -58,7 +58,7 @@ export const getSales = async (salesData) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://' + HOST + '/Sales',
+    url: HOST + '/Sales',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token,
@@ -84,7 +84,7 @@ export const getMachines = async () => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'http://' + HOST + '/Machines',
+    url: HOST + '/Machines',
     headers: {
       'Authorization': 'Bearer ' + token,
       'X-HTTP-Method-Override' : 'GET'
@@ -117,7 +117,7 @@ export const addMachine = async (machine_id, machine_name, username) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://' + HOST + '/AddMachine',
+    url: HOST + '/AddMachine',
     headers: {
       'Authorization': 'Bearer ' + token,
       'X-HTTP-Method-Override' : 'GET'
@@ -146,7 +146,7 @@ export const editMachine = async (machine_id, machine_name) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://' + HOST + '/EditMachineName',
+    url: HOST + '/EditMachineName',
     headers: {
       'Authorization': 'Bearer ' + token,
       'X-HTTP-Method-Override' : 'GET'
@@ -171,7 +171,7 @@ export const deleteMachine = async (machine_id) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://' + HOST + '/DeleteMachine/' + machine_id.toString(),
+    url: HOST + '/DeleteMachine/' + machine_id.toString(),
     headers: {
       'Authorization': 'Bearer ' + token,
       'X-HTTP-Method-Override' : 'GET'
@@ -199,7 +199,7 @@ export const addUser = async (name, pass) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://' + HOST + '/AddUser',
+    url: HOST + '/AddUser',
     headers: {
       'Authorization': 'Bearer ' + token,
       'X-HTTP-Method-Override' : 'GET'
