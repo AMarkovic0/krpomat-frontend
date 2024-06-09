@@ -74,25 +74,39 @@ export default function Sales({ sales }) {
     setPage(0);
   };
 
-  const in24h = (date) => {
-    return (new Date()).getTime() < ((new Date(dateToIso(date))).getTime() + 1440*60000);
-  };
+  //const in24h = (date) => {
+  //  return (new Date()).getTime() < ((new Date(dateToIso(date))).getTime() + 1440*60000);
+  //};
 
-  const sumPtoday = (p) => {
+  //const sumPtoday = (p) => {
+  //  let sum = 0;
+
+  //  for (var i in sales) {
+  //      if (in24h(sales[i].sale_date)) {
+  //        if (sales[i][p] === "N/A") {
+  //          continue;
+  //        }
+
+  //        sum = sum + sales[i][p];
+  //      }
+  //  }
+
+  //  return sum;
+  //};
+
+  const sumAll = (p) => {
     let sum = 0;
 
     for (var i in sales) {
-        if (in24h(sales[i].sale_date)) {
-          if (sales[i][p] === "N/A") {
-            continue;
-          }
+      if (sales[i][p] === "N/A") {
+        continue;
+      }
 
-          sum = sum + sales[i][p];
-        }
+      sum = sum + sales[i][p];
     }
 
     return sum;
-  };
+  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -142,11 +156,11 @@ export default function Sales({ sales }) {
             <FunctionsIcon/>
           </IconButton>
         </TableCell>
-        <TableCell>{sumPtoday("p1")}</TableCell>
-        <TableCell>{sumPtoday("p2")}</TableCell>
-        <TableCell>{sumPtoday("p3")}</TableCell>
-        <TableCell>{sumPtoday("p4")}</TableCell>
-        <TableCell>{sumPtoday("p5")}</TableCell>
+        <TableCell>{sumAll("p1")}</TableCell>
+        <TableCell>{sumAll("p2")}</TableCell>
+        <TableCell>{sumAll("p3")}</TableCell>
+        <TableCell>{sumAll("p4")}</TableCell>
+        <TableCell>{sumAll("p5")}</TableCell>
       </Table>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
