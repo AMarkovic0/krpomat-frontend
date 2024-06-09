@@ -13,8 +13,6 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import FormControlLabel from '@mui/material/FormControlLabel';
