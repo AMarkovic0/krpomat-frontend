@@ -2,9 +2,10 @@ import axios from 'axios';
 
 import { TOKEN, refreshPage, isProd } from '../utils';
 
-const HOST_ADDRESS = isProd() ? "app.krpomat.rs" : "192.168.1.9";
+const HOST_ADDRESS = isProd() ? "app.krpomat.rs" : "localhost";
 const HOST_PORT = isProd() ? 443 : 5000;
-const HOST = "https://" + HOST_ADDRESS + ":" + HOST_PORT + "/api/v1";
+const PROTOCOL = isProd() ? "https://" : "http://";
+const HOST = PROTOCOL + HOST_ADDRESS + ":" + HOST_PORT + "/api/v1";
 
 function handle401(error) {
   if (typeof error.response === 'undefined') {
