@@ -59,8 +59,8 @@ function Row(props) {
         <TableCell align="right">{row.p1}</TableCell>
         <TableCell align="right">{row.p2}</TableCell>
         <TableCell align="right">{row.p3}</TableCell>
-        <TableCell align="right">{row.p4 ? row.p4 : "N/A"}</TableCell>
-        <TableCell align="right">{row.p5 ? row.p5 : "N/A"}</TableCell>
+        <TableCell align="right">{(row.p4 !== null) ? row.p4 : "N/A"}</TableCell>
+        <TableCell align="right">{(row.p5 !== null) ? row.p5 : "N/A"}</TableCell>
         <TableCell align="right">{(row.sale_date === "01.01.1970. 00:00:00") ?
           "Waiting for data..." : row.sale_date}</TableCell>
       </TableRow>
