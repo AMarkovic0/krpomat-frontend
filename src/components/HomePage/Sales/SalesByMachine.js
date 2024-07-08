@@ -21,10 +21,10 @@ import Switch from '@mui/material/Switch';
 import { getMachines } from '../../../api';
 import { dateToIso } from '../../../utils';
 
-const MIN30 = 30*60000;
+const MIN3 = 3*60000;
 
 function checkOnline(date) {
-  return (new Date()).getTime() > (new Date(dateToIso(date)).getTime() + MIN30);
+  return (new Date()).getTime() > (new Date(dateToIso(date)).getTime() + MIN3);
 }
 
 function Row(props) {
@@ -61,7 +61,8 @@ function Row(props) {
         <TableCell align="right">{row.p3}</TableCell>
         <TableCell align="right">{row.p4 ? row.p4 : "N/A"}</TableCell>
         <TableCell align="right">{row.p5 ? row.p5 : "N/A"}</TableCell>
-        <TableCell align="right">{row.sale_date}</TableCell>
+        <TableCell align="right">{(row.sale_date === "01.01.1970. 00:00:00") ?
+          "Waiting for data..." : row.sale_date}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
