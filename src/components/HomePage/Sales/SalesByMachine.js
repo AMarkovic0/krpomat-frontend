@@ -22,14 +22,24 @@ import { getMachines } from '../../../api';
 import { dateToIso } from '../../../utils';
 
 const MIN3 = 3*60000;
+const loadDateTime = (new Date).getTime();
 
 function checkOnline(date) {
-  return (new Date()).getTime() > (new Date(dateToIso(date)).getTime() + MIN3);
+  return loadDateTime > (new Date(dateToIso(date)).getTime() + MIN3);
 }
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
+  const getSwitchTimeToDisplay = (row) => {
+    return checkOnline(row.sale_date) ?
+      row.sale_date : row.online_status_changed;
+  };
+
+  const arrowOpen = (open) => {
+    setOpen(open);
+  };
 
   return (
     <React.Fragment>
@@ -38,7 +48,7 @@ function Row(props) {
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
+            onClick={() => arrowOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
@@ -61,8 +71,9 @@ function Row(props) {
         <TableCell align="right">{row.p3}</TableCell>
         <TableCell align="right">{(row.p4 !== null) ? row.p4 : "N/A"}</TableCell>
         <TableCell align="right">{(row.p5 !== null) ? row.p5 : "N/A"}</TableCell>
-        <TableCell align="right">{(row.sale_date === "01.01.1970. 00:00:00") ?
-          "Waiting for data..." : row.sale_date}</TableCell>
+        <TableCell align="right">{(row.online_status_changed === "01.01.1970. 00:00:00" ||
+                                   row.online_status_changed === "") ?
+          "Waiting for data..." : getSwitchTimeToDisplay(row)}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -220,7 +231,7 @@ export default function SalesByMachine({ sales }) {
             <TableCell align="right">Product 3</TableCell>
             <TableCell align="right">Product 4</TableCell>
             <TableCell align="right">Product 5</TableCell>
-            <TableCell align="right">Last Time Online</TableCell>
+            <TableCell align="right">Last Online State Switch</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
