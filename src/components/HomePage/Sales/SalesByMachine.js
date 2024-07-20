@@ -71,7 +71,7 @@ function Row(props) {
         <TableCell align="right">{row.p3}</TableCell>
         <TableCell align="right">{(row.p4 !== null) ? row.p4 : "N/A"}</TableCell>
         <TableCell align="right">{(row.p5 !== null) ? row.p5 : "N/A"}</TableCell>
-        <TableCell align="right">{(row.online_status_changed === "01.01.1970. 00:00:00" ||
+        <TableCell align="right">{(row.online_status_changed === "01.01.1970 00:00:00" ||
                                    row.online_status_changed === "") ?
           "Waiting for data..." : getSwitchTimeToDisplay(row)}</TableCell>
       </TableRow>
