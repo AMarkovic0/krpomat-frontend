@@ -27,7 +27,6 @@ import LinearIndeterminate from "./LoadBar/LoadBar";
 import DateSelector from "./DateSelector/DateSelector";
 import AddMachine from "./AddMachine/AddMachine";
 import EditMachine from "./EditMachine/EditMachine";
-import DeleteMachine from "./DeleteMachine/DeleteMachine";
 import AddUser from "./AddUser/AddUser";
 
 import { getSales } from '../../api';
@@ -35,7 +34,7 @@ import { refreshPage } from "../../utils";
 
 const drawerWidth = 240;
 
-function getDate() {
+function getToday() {
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
@@ -57,17 +56,16 @@ function DrawerAppBar(props) {
   const [displayItem, setDisplayItem] = React.useState("SALES");
   const [sales, setSales] = React.useState([]);
   const [startDate, setStartDate] = React.useState("01.01.1980.");
-  const [endDate, setEndDate] = React.useState(getDate());
+  const [endDate, setEndDate] = React.useState(getToday());
   const [showByMachine, setShowByMachine] = React.useState(true);
   const [showRecord, setShowRecord] = React.useState(false);
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogOpenEdit, setDialogOpenEdit] = React.useState(false);
-  const [dialogOpenDel, setDialogOpenDel] = React.useState(false);
   const [dialogOpenUsr, setDialogOpenUsr] = React.useState(false);
 
   const navItems = (localStorage.getItem("username") === "admin") ?
-    [ 'ADD USER', 'SALES', 'ADD MACHINE', 'EDIT MACHINE', 'DELETE MACHINE', 'LOG OUT'] :
+    [ 'ADD USER', 'SALES', 'ADD MACHINE', 'EDIT MACHINE', 'LOG OUT'] :
     [ 'SALES', 'ADD MACHINE', 'EDIT MACHINE', 'LOG OUT'];
 
   const handleDrawerToggle = () => {
@@ -84,7 +82,6 @@ function DrawerAppBar(props) {
     } else {
       setDialogOpen(item === "ADD MACHINE");
       setDialogOpenEdit(item === "EDIT MACHINE");
-      setDialogOpenDel(item === "DELETE MACHINE");
       setDialogOpenUsr(item === "ADD USER");
       setDisplayItem(item);
     }
@@ -196,8 +193,7 @@ function DrawerAppBar(props) {
         <Toolbar />
         <Box>
           {displayItem === "SALES" || displayItem === "ADD MACHINE" ||
-           displayItem === "EDIT MACHINE" || displayItem === "DELETE MACHINE" ||
-           displayItem === "ADD USER" ?
+           displayItem === "EDIT MACHINE" || displayItem === "ADD USER" ?
             <div>
               <Box sx={{ p: 3 }}>
                 <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
@@ -259,8 +255,6 @@ function DrawerAppBar(props) {
           <AddMachine open={dialogOpen} setOpen={setDialogOpen}/>
           <EditMachine open={dialogOpenEdit} setOpen={setDialogOpenEdit}/>
           <AddUser open={dialogOpenUsr} setOpen={setDialogOpenUsr}/>
-          {(localStorage.getItem("username") === "admin") &&
-            <DeleteMachine open={dialogOpenDel} setOpen={setDialogOpenDel}/>}
           {displayItem === "LOG OUT" ? <span>LOG OUT</span> : <span/>}
         </Box>
       </Box>

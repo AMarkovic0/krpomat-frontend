@@ -17,12 +17,13 @@ import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
-import { getMachines } from '../../../api';
-import { dateToIso } from '../../../utils';
+import { getMachines, deleteMachine } from '../../../api';
+import { dateToIso, refreshPage } from '../../../utils';
 
 const MIN3 = 3*60000;
-const loadDateTime = (new Date).getTime();
+const loadDateTime = (new Date()).getTime();
 
 function checkOnline(date) {
   return loadDateTime > (new Date(dateToIso(date)).getTime() + MIN3);
@@ -74,6 +75,21 @@ function Row(props) {
         <TableCell align="right">{(row.online_status_changed === "01.01.1970 00:00:00" ||
                                    row.online_status_changed === "") ?
           "Waiting for data..." : getSwitchTimeToDisplay(row)}</TableCell>
+        {localStorage.getItem("username") === "admin" ?
+          <TableCell>
+            <IconButton aria-label="Example">
+              <DeleteRoundedIcon
+                color="primary"
+                onClick={(e) => {
+                  deleteMachine(row.machine_id).then((err) => {
+                    refreshPage();
+                  });
+                }}
+              />
+            </IconButton>
+          </TableCell> :
+          <p/>
+        }
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
