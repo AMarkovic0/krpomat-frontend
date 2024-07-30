@@ -11,23 +11,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import Password from '../Password/Password';
 import { login } from '../../api';
 import { TOKEN, Copyright } from '../../utils';
 
 export default function SignIn({ defaultTheme, setAuthenticated }) {
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -78,28 +67,7 @@ export default function SignIn({ defaultTheme, setAuthenticated }) {
               autoComplete="username"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              id="password"
-              autoComplete="current-password"
-              type={showPassword ? 'text' : 'password'}
-              InputProps={{endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>),
-              }}
-            />
+            <Password autoComplete="true" label="password"/>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
