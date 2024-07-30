@@ -7,12 +7,21 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import { MuiTelInput } from 'mui-tel-input';
+
+import Password from "../../Password/Password";
 import { addUser } from '../../../api';
 
 export default function AddMachine({ open, setOpen }) {
+  const [phone, setPhone] = React.useState('')
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  const onPhoneChanged = (newPhone) => {
+    setPhone(newPhone)
+  }
 
   return (
     <React.Fragment>
@@ -27,7 +36,7 @@ export default function AddMachine({ open, setOpen }) {
             const user = Object.fromEntries(formData.entries());
 
             handleClose();
-            addUser(user.name, user.pass).then(() => {});
+            addUser(user.name, user.password, phone).then(() => {});
           },
         }}
       >
@@ -37,27 +46,18 @@ export default function AddMachine({ open, setOpen }) {
             To edit machine name, please enter exiting machine ID and a new name.
           </DialogContentText>
           <TextField
-            autoFocus
+            margin="normal"
             required
-            margin="dense"
+            fullWidth
             id="name"
-            name="name"
             label="User Name"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
+            name="name"
             autoFocus
-            required
-            margin="dense"
-            id="pass"
-            name="pass"
-            label="Password"
-            type="text"
-            fullWidth
-            variant="standard"
           />
+          <Password label="password"/>
+          <p>
+            <MuiTelInput value={phone} onChange={onPhoneChanged}/>
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>CANCEL</Button>

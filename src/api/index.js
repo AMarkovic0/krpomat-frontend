@@ -191,11 +191,12 @@ export const deleteMachine = async (machine_id) => {
   return resp;
 }
 
-export const addUser = async (name, pass) => {
+export const addUser = async (name, pass, phone) => {
   let token = localStorage.getItem(TOKEN());
   let data = {
     username: name,
-    password: pass
+    password: pass,
+    phone_number: phone
   };
   let config = {
     method: 'post',
