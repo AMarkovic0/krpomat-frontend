@@ -138,11 +138,12 @@ export const addMachine = async (machine_id, machine_name, username) => {
   return resp;
 }
 
-export const editMachine = async (machine_id, machine_name) => {
+export const editMachine = async (machine_id, machine_name, num_of_prod) => {
   let token = localStorage.getItem(TOKEN());
   let data = {
     id: +machine_id,
-    machine_name: machine_name
+    machine_name: machine_name,
+    num_of_prod: +num_of_prod
   };
   let config = {
     method: 'post',

@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { editMachine } from '../../../api';
 import { refreshPage } from '../../../utils';
 
-export default function AddMachine({ open, setOpen }) {
+export default function EditMachine({ open, setOpen, machineData }) {
   const handleClose = () => {
     setOpen(false);
   };
@@ -28,7 +28,7 @@ export default function AddMachine({ open, setOpen }) {
             const machine = Object.fromEntries(formData.entries());
 
             handleClose();
-            editMachine(machine.id, machine.name).then((err) => {
+            editMachine(machineData.machine_id, machine.name, machine.numOfProd).then((err) => {
               refreshPage();
             });
           },
@@ -49,17 +49,22 @@ export default function AddMachine({ open, setOpen }) {
             type="text"
             fullWidth
             variant="standard"
+            defaultValue={machineData && machineData.machine_name || ""}
           />
           <TextField
             autoFocus
             required
             margin="dense"
-            id="id"
-            name="id"
-            label="Machine ID"
+            id="numOfProd"
+            name="numOfProd"
+            label="Number of products"
             type="number"
             fullWidth
             variant="standard"
+            InputProps={{
+               inputProps: { min: 1 }
+            }}
+            defaultValue={machineData && machineData.num_of_prod || 3}
             onKeyPress={(event) => {
               if (event?.key === '-' || event?.key === '+') {
                 event.preventDefault();

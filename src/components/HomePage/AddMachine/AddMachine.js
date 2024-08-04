@@ -46,7 +46,7 @@ export default function AddMachine({ open, setOpen }) {
             const machine = Object.fromEntries(formData.entries());
 
             handleClose();
-            addMachine(machine.id, machine.name, machine.user).then((err) => {
+            addMachine(machine.id, machine.name, machine.user, machine.numOfProd).then((err) => {
               if (typeof err.response === 'undefined') {
                 setIdError(false);
               } else {
@@ -101,6 +101,28 @@ export default function AddMachine({ open, setOpen }) {
             type="number"
             fullWidth
             variant="standard"
+            InputProps={{
+               inputProps: { min: 1 }
+            }}
+            onKeyPress={(event) => {
+              if (event?.key === '-' || event?.key === '+') {
+                event.preventDefault();
+              }
+            }}
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="numOfProd"
+            name="numOfProd"
+            label="Number of products"
+            type="number"
+            fullWidth
+            variant="standard"
+            InputProps={{
+               inputProps: { min: 1 }
+            }}
             onKeyPress={(event) => {
               if (event?.key === '-' || event?.key === '+') {
                 event.preventDefault();

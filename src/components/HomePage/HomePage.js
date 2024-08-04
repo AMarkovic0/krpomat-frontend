@@ -63,10 +63,11 @@ function DrawerAppBar(props) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogOpenEdit, setDialogOpenEdit] = React.useState(false);
   const [dialogOpenUsr, setDialogOpenUsr] = React.useState(false);
+  const [machineData, setSettingsMachineData] = React.useState();
 
   const navItems = (localStorage.getItem("username") === "admin") ?
-    [ 'ADD USER', 'SALES', 'ADD MACHINE', 'EDIT MACHINE', 'LOG OUT'] :
-    [ 'SALES', 'ADD MACHINE', 'EDIT MACHINE', 'LOG OUT'];
+    [ 'ADD USER', 'SALES', 'ADD MACHINE', 'LOG OUT'] :
+    [ 'SALES', 'ADD MACHINE', 'LOG OUT'];
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -81,7 +82,6 @@ function DrawerAppBar(props) {
       refreshPage();
     } else {
       setDialogOpen(item === "ADD MACHINE");
-      setDialogOpenEdit(item === "EDIT MACHINE");
       setDialogOpenUsr(item === "ADD USER");
       setDisplayItem(item);
     }
@@ -192,8 +192,7 @@ function DrawerAppBar(props) {
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
         <Box>
-          {displayItem === "SALES" || displayItem === "ADD MACHINE" ||
-           displayItem === "EDIT MACHINE" || displayItem === "ADD USER" ?
+          {displayItem === "SALES" || displayItem === "ADD MACHINE" || displayItem === "ADD USER" ?
             <div>
               <Box sx={{ p: 3 }}>
                 <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
@@ -242,7 +241,13 @@ function DrawerAppBar(props) {
               <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} alignItems="top" columns={16}>
                   {showByMachine ? <Grid item xs={showRecord ? 8 : 16}>
-                    {sales ? <SalesByMachine sales={sales}/> : <LinearIndeterminate/>}
+                    {sales ?
+                      <SalesByMachine
+                        sales={sales}
+                        openSettings={setDialogOpenEdit}
+                        setSettingsMachineData={setSettingsMachineData}
+                      /> : <LinearIndeterminate/>
+                    }
                   </Grid> : <span/>}
                   {showRecord ? <Grid item marginLeft="auto" xs={showByMachine ? 8 : 16}>
                     {sales ? <Sales sales={sales}/> : <LinearIndeterminate/>}
@@ -253,7 +258,11 @@ function DrawerAppBar(props) {
             :
             <span/>}
           <AddMachine open={dialogOpen} setOpen={setDialogOpen}/>
-          <EditMachine open={dialogOpenEdit} setOpen={setDialogOpenEdit}/>
+          <EditMachine
+            open={dialogOpenEdit}
+            setOpen={setDialogOpenEdit}
+            machineData={machineData}
+          />
           <AddUser open={dialogOpenUsr} setOpen={setDialogOpenUsr}/>
           {displayItem === "LOG OUT" ? <span>LOG OUT</span> : <span/>}
         </Box>

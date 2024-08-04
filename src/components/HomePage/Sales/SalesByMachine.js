@@ -18,6 +18,7 @@ import PublicOffIcon from '@mui/icons-material/PublicOff';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { getMachines, deleteMachine } from '../../../api';
 import { dateToIso, refreshPage } from '../../../utils';
@@ -41,6 +42,10 @@ function Row(props) {
   const arrowOpen = (open) => {
     setOpen(open);
   };
+
+  const displayProduct = (prod, num_of_prod, max_num_of_prod) => {
+    return (prod === null || num_of_prod <= max_num_of_prod) ? "N/A" : prod;
+  }
 
   return (
     <React.Fragment>
@@ -67,25 +72,45 @@ function Row(props) {
           {row.machine_name}
         </TableCell>
         <TableCell align="right">{row.machine_id}</TableCell>
-        <TableCell align="right">{row.p1}</TableCell>
-        <TableCell align="right">{row.p2}</TableCell>
-        <TableCell align="right">{row.p3}</TableCell>
-        <TableCell align="right">{(row.p4 !== null) ? row.p4 : "N/A"}</TableCell>
-        <TableCell align="right">{(row.p5 !== null) ? row.p5 : "N/A"}</TableCell>
+        <TableCell align="right">
+          {displayProduct(row.p1, row.num_of_prod, 0)}
+        </TableCell>
+        <TableCell align="right">
+          {displayProduct(row.p2, row.num_of_prod, 1)}
+        </TableCell>
+        <TableCell align="right">
+          {displayProduct(row.p3, row.num_of_prod, 2)}
+        </TableCell>
+        <TableCell align="right">
+          {displayProduct(row.p4, row.num_of_prod, 3)}
+        </TableCell>
+        <TableCell align="right">
+          {displayProduct(row.p5, row.num_of_prod, 4)}
+        </TableCell>
         <TableCell align="right">{(row.online_status_changed === "01.01.1970 00:00:00" ||
                                    row.online_status_changed === "") ?
           "Waiting for data..." : getSwitchTimeToDisplay(row)}</TableCell>
+        <TableCell align="right">
+          <IconButton
+            onClick={(e) => {
+              props.openSettings(true);
+              props.setSettingsMachineData(row);
+            }}
+          >
+            <SettingsIcon color="primary"/>
+          </IconButton>
+        </TableCell>
         {localStorage.getItem("username") === "admin" ?
           <TableCell>
-            <IconButton aria-label="Example">
-              <DeleteRoundedIcon
-                color="primary"
-                onClick={(e) => {
+            <IconButton
+              aria-label="Example"
+              onClick={(e) => {
                   deleteMachine(row.machine_id).then((err) => {
-                    refreshPage();
-                  });
-                }}
-              />
+                  refreshPage();
+                });
+              }}
+            >
+              <DeleteRoundedIcon color="primary"/>
             </IconButton>
           </TableCell> :
           <p/>
@@ -115,14 +140,20 @@ function Row(props) {
                       <TableCell component="th" scope="row">
                         {historyRow.sale_date}
                       </TableCell>
-                      <TableCell align="right">{historyRow.p1}</TableCell>
-                      <TableCell align="right">{historyRow.p2}</TableCell>
-                      <TableCell align="right">{historyRow.p3}</TableCell>
                       <TableCell align="right">
-                        {(historyRow.p4 !== null) ? historyRow.p4 : "N/A"}
+                        {displayProduct(historyRow.p1, row.num_of_prod, 0)}
                       </TableCell>
                       <TableCell align="right">
-                        {(historyRow.p5 !== null) ? historyRow.p5 : "N/A"}
+                        {displayProduct(historyRow.p2, row.num_of_prod, 1)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {displayProduct(historyRow.p3, row.num_of_prod, 2)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {displayProduct(historyRow.p4, row.num_of_prod, 3)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {displayProduct(historyRow.p5, row.num_of_prod, 4)}
                       </TableCell>
                     </TableRow>
                   )) : <TableRow key="1"/>}
@@ -146,6 +177,7 @@ Row.propTypes = {
     p4: PropTypes.number,
     p5: PropTypes.number,
     sale_date: PropTypes.string.isRequired,
+    num_of_prod: PropTypes.number.isRequired,
     history: PropTypes.arrayOf(
       PropTypes.shape({
         p1: PropTypes.number.isRequired,
@@ -182,7 +214,7 @@ function addHistoryToMachine(machines, sale) {
   return machines;
 }
 
-export default function SalesByMachine({ sales }) {
+export default function SalesByMachine({ sales, openSettings, setSettingsMachineData }) {
   const [machines, setMachines] = React.useState([]);
   const [filterEmpty, setFilterEmpty] = React.useState(false);
   const [filterOnline, setFilterOnline] = React.useState(false);
@@ -252,7 +284,12 @@ export default function SalesByMachine({ sales }) {
         </TableHead>
         <TableBody>
           {machines.map((row) => (
-            <Row key={row.machine_id} row={row} />
+            <Row
+              key={row.machine_id}
+              row={row}
+              openSettings={openSettings}
+              setSettingsMachineData={setSettingsMachineData}
+            />
           ))}
         </TableBody>
       </Table>
