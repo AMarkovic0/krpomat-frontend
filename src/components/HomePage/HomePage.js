@@ -21,7 +21,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { CSVLink } from 'react-csv';
 
-import SalesByMachine from "./Sales/SalesByMachine";
+import { SalesByMachine, displayProduct } from "./Sales/SalesByMachine";
 import Sales from "./Sales/Sales";
 import LinearIndeterminate from "./LoadBar/LoadBar";
 import DateSelector from "./DateSelector/DateSelector";
@@ -132,6 +132,18 @@ function DrawerAppBar(props) {
     });
   }
 
+  const processForCSV = (sales) => {
+    sales.map((sale) => {
+      sale.p1 = displayProduct(sale.p1, sale.num_of_prod, 0);
+      sale.p2 = displayProduct(sale.p2, sale.num_of_prod, 1);
+      sale.p3 = displayProduct(sale.p3, sale.num_of_prod, 2);
+      sale.p4 = displayProduct(sale.p4, sale.num_of_prod, 3);
+      sale.p5 = displayProduct(sale.p5, sale.num_of_prod, 4);
+    });
+
+    return sales;
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -207,7 +219,7 @@ function DrawerAppBar(props) {
                   </Grid>
                   <Grid item>
                     <CSVLink
-                      data={sales}
+                      data={processForCSV(sales)}
                       filename={
                         "krpomat-sales-" + (new Date()).toISOString().split('T')[0] + ".csv"
                       }

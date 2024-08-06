@@ -30,6 +30,10 @@ function checkOnline(date) {
   return loadDateTime > (new Date(dateToIso(date)).getTime() + MIN3);
 }
 
+export function displayProduct(prod, num_of_prod, max_num_of_prod) {
+  return (prod === null || num_of_prod <= max_num_of_prod) ? "N/A" : prod;
+}
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -42,10 +46,6 @@ function Row(props) {
   const arrowOpen = (open) => {
     setOpen(open);
   };
-
-  const displayProduct = (prod, num_of_prod, max_num_of_prod) => {
-    return (prod === null || num_of_prod <= max_num_of_prod) ? "N/A" : prod;
-  }
 
   return (
     <React.Fragment>
@@ -214,7 +214,7 @@ function addHistoryToMachine(machines, sale) {
   return machines;
 }
 
-export default function SalesByMachine({ sales, openSettings, setSettingsMachineData }) {
+export function SalesByMachine({ sales, openSettings, setSettingsMachineData }) {
   const [machines, setMachines] = React.useState([]);
   const [filterEmpty, setFilterEmpty] = React.useState(false);
   const [filterOnline, setFilterOnline] = React.useState(false);
