@@ -104,7 +104,7 @@ export const getMachines = async () => {
   return resp;
 }
 
-export const addMachine = async (machine_id, machine_name, username) => {
+export const addMachine = async (machine_id, machine_name, username, num_of_prod) => {
   if (typeof username === 'undefined') {
     username = localStorage.getItem("username");
   }
@@ -113,7 +113,8 @@ export const addMachine = async (machine_id, machine_name, username) => {
   let data = {
     id: +machine_id,
     machine_name: machine_name,
-    username: username
+    username: username,
+    num_of_prod: +num_of_prod
   };
   let config = {
     method: 'post',
