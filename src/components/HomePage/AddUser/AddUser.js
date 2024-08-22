@@ -20,7 +20,7 @@ export default function AddMachine({ open, setOpen }) {
   };
 
   const onPhoneChanged = (newPhone) => {
-    setPhone(newPhone)
+    setPhone(newPhone.replace(/\s/g, ''));
   }
 
   return (
@@ -53,10 +53,23 @@ export default function AddMachine({ open, setOpen }) {
             label="User Name"
             name="name"
             autoFocus
+            inputProps={{
+              autoComplete: "new-password"
+            }}
           />
-          <Password label="password"/>
+          <Password
+            label="password"
+            autoComplete="new-password"
+          />
           <p>
-            <MuiTelInput value={phone} onChange={onPhoneChanged}/>
+            <MuiTelInput
+              label="Phone Number"
+              forceCallingCode
+              defaultCountry="RS"
+              continents={['EU']}
+              value={phone}
+              onChange={onPhoneChanged}
+            />
           </p>
         </DialogContent>
         <DialogActions>

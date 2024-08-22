@@ -223,3 +223,26 @@ export const addUser = async (name, pass, phone) => {
   return resp;
 }
 
+export const getUsers = async () => {
+  let token = localStorage.getItem(TOKEN());
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: HOST + '/Users',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    },
+  };
+  let resp = [];
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
+    handle401(error);
+  });
+
+  return resp;
+}

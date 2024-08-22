@@ -6,14 +6,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import MenuItem from '@mui/material/MenuItem';
 
-import { addMachine } from '../../../api';
+import { addMachine, getUsers } from '../../../api';
 import MachineAddAlert from './Popup/Popup';
 import { refreshPage } from '../../../utils';
 
 export default function AddMachine({ open, setOpen }) {
   const [idErr, setIdError] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(false);
+  const [users, setUsers] = React.useState([{ value : "admin", label : "admin" }]);
 
   const resetAlert = () => {
     setOpenAlert(false);
@@ -23,6 +25,22 @@ export default function AddMachine({ open, setOpen }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    if (!open || localStorage.getItem("username") !== "admin") {
+        return;
+    }
+
+    getUsers().then((resp) => {
+      let users = [];
+
+      resp.forEach(function (item, index) {
+        users[index] = { value : item, label : item }
+      });
+
+      setUsers(users);
+    })
+  }, [open]);
 
   return (
     <React.Fragment>
@@ -69,6 +87,7 @@ export default function AddMachine({ open, setOpen }) {
           </DialogContentText>
           {localStorage.getItem("username") === "admin" ?
             <TextField
+              select
               autoFocus
               required
               margin="dense"
@@ -78,7 +97,13 @@ export default function AddMachine({ open, setOpen }) {
               type="text"
               fullWidth
               variant="standard"
-            /> : <span/>
+            >
+              {users.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                {option.label}
+                </MenuItem>
+              ))}
+            </TextField> : <span/>
           }
           <TextField
             autoFocus

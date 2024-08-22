@@ -22,7 +22,7 @@ export default function Password( { autoComplete } ) {
       name="password"
       label="Password"
       id="password"
-      autoComplete={autoComplete === "true" ? "current-password" : "none"}
+      autoComplete={autoComplete === "true" ? "current-password" : "new-password"}
       type={showPassword ? 'text' : 'password'}
       InputProps={{endAdornment: (
         <InputAdornment position="end">
