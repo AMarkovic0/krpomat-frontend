@@ -68,6 +68,10 @@ function Row(props) {
             <PublicOffIcon/> : <PublicIcon color="primary"/>}
           </IconButton>
         </TableCell>
+        {localStorage.getItem("username") === "admin" ?
+          <TableCell align="left">{row.username}</TableCell> :
+          <p/>
+        }
         <TableCell component="th" scope="row">
           {row.machine_name}
         </TableCell>
@@ -272,6 +276,10 @@ export function SalesByMachine({ sales, openSettings, setSettingsMachineData }) 
           <TableRow>
             <TableCell/>
             <TableCell>Online Status</TableCell>
+            {localStorage.getItem("username") === "admin" ?
+              <TableCell align="left">User Name</TableCell> :
+              <p/>
+            }
             <TableCell>Machine Name</TableCell>
             <TableCell align="right">Machine ID</TableCell>
             <TableCell align="right">Product 1</TableCell>

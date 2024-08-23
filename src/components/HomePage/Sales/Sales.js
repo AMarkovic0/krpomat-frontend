@@ -52,8 +52,11 @@ const columns = [
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
-
 ];
+
+if (localStorage.getItem("username") === "admin") {
+  columns.splice(1, 0, { id: 'username', label: 'User Name', minWidth: 170 });
+}
 
 export default function Sales({ sales }) {
   const [page, setPage] = React.useState(0);
