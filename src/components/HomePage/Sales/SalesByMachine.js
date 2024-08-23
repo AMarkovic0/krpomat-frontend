@@ -59,6 +59,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+        <TableCell align="center">{row.machine_id}</TableCell>
         <TableCell component="th" scope="row" align="center">
           <IconButton
             aria-label="expand row"
@@ -75,7 +76,6 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.machine_name}
         </TableCell>
-        <TableCell align="right">{row.machine_id}</TableCell>
         <TableCell align="right">
           {displayProduct(row.p1, row.num_of_prod, 0)}
         </TableCell>
@@ -275,13 +275,13 @@ export function SalesByMachine({ sales, openSettings, setSettingsMachineData }) 
           </TableRow>
           <TableRow>
             <TableCell/>
+            <TableCell align="left">Machine ID</TableCell>
             <TableCell>Online Status</TableCell>
             {localStorage.getItem("username") === "admin" ?
               <TableCell align="left">User Name</TableCell> :
               <p/>
             }
             <TableCell>Machine Name</TableCell>
-            <TableCell align="right">Machine ID</TableCell>
             <TableCell align="right">Product 1</TableCell>
             <TableCell align="right">Product 2</TableCell>
             <TableCell align="right">Product 3</TableCell>
