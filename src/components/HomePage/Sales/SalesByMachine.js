@@ -17,11 +17,11 @@ import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import { getMachines, deleteMachine } from '../../../api';
-import { dateToIso, refreshPage } from '../../../utils';
+import { DeleteMachine } from './DeleteMachine/DeleteMachine';
+import { getMachines } from '../../../api';
+import { refreshPage, dateToIso } from '../../../utils';
 
 const MIN3 = 3*60000;
 const loadDateTime = (new Date()).getTime();
@@ -106,16 +106,7 @@ function Row(props) {
         </TableCell>
         {localStorage.getItem("username") === "admin" ?
           <TableCell>
-            <IconButton
-              aria-label="Example"
-              onClick={(e) => {
-                  deleteMachine(row.machine_id).then((err) => {
-                  refreshPage();
-                });
-              }}
-            >
-              <DeleteRoundedIcon color="primary"/>
-            </IconButton>
+            <DeleteMachine machine_id={row.machine_id}/>
           </TableCell> :
           <p/>
         }
