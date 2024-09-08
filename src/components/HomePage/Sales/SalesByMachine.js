@@ -217,9 +217,10 @@ export function SalesByMachine({ sales, openSettings, setSettingsMachineData }) 
   React.useEffect(() => {
     const filterNoProduct = (machine) => {
       return (filterEmpty &&
-        !(machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
+        !((machine.p1 === 0 || machine.p2 === 0 || machine.p3 === 0 ||
         (machine.p4 != null && machine.p4 === 0) ||
-        (machine.p5 != null && machine.p5 === 0)));
+        (machine.p5 != null && machine.p5 === 0)) &&
+        !checkOnline(machine.sale_date)));
     };
 
     const onlineFilter = (machine) => {
