@@ -184,11 +184,11 @@ Row.propTypes = {
     num_of_prod: PropTypes.number.isRequired,
     history: PropTypes.arrayOf(
       PropTypes.shape({
-        p1: PropTypes.number.isRequired,
-        p2: PropTypes.number.isRequired,
-        p3: PropTypes.number.isRequired,
-        p4: PropTypes.number,
-        p5: PropTypes.number,
+        p1: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        p2: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        p3: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        p4: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        p5: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         sale_date: PropTypes.string.isRequired,
       }),
     ),
