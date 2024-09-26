@@ -115,7 +115,7 @@ export const addMachine = async (machine_id, machine_name, username, num_of_prod
     machine_name: machine_name,
     username: username,
     num_of_prod: +num_of_prod,
-    phone: phone
+    phone_number: phone
   };
   let config = {
     method: 'post',
@@ -146,7 +146,7 @@ export const editMachine = async (machine_id, machine_name, num_of_prod, phone) 
     id: +machine_id,
     machine_name: machine_name,
     num_of_prod: +num_of_prod,
-    phone
+    phone_number: phone
   };
   let config = {
     method: 'post',
