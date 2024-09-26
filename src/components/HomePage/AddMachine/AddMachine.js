@@ -8,6 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
 
+import { MuiTelInput } from 'mui-tel-input';
+
 import { addMachine, getUsers } from '../../../api';
 import MachineAddAlert from './Popup/Popup';
 import { refreshPage } from '../../../utils';
@@ -16,6 +18,7 @@ export default function AddMachine({ open, setOpen }) {
   const [idErr, setIdError] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(false);
   const [users, setUsers] = React.useState([{ value : "admin", label : "admin" }]);
+  const [phone, setPhone] = React.useState('')
 
   const resetAlert = () => {
     setOpenAlert(false);
@@ -25,6 +28,10 @@ export default function AddMachine({ open, setOpen }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const onPhoneChanged = (newPhone) => {
+    setPhone(newPhone.replace(/\s/g, ''));
+  }
 
   React.useEffect(() => {
     if (!open || localStorage.getItem("username") !== "admin") {
@@ -64,7 +71,13 @@ export default function AddMachine({ open, setOpen }) {
             const machine = Object.fromEntries(formData.entries());
 
             handleClose();
-            addMachine(machine.id, machine.name, machine.user, machine.numOfProd).then((err) => {
+            addMachine(
+              machine.id,
+              machine.name,
+              machine.user,
+              machine.numOfProd,
+              phone
+            ).then((err) => {
               if (typeof err.response === 'undefined') {
                 setIdError(false);
               } else {
@@ -154,6 +167,16 @@ export default function AddMachine({ open, setOpen }) {
               }
             }}
           />
+          <p>
+            <MuiTelInput
+              label="Phone Number"
+              forceCallingCode
+              defaultCountry="RS"
+              continents={['EU']}
+              value={phone}
+              onChange={onPhoneChanged}
+            />
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>CANCEL</Button>

@@ -104,7 +104,7 @@ export const getMachines = async () => {
   return resp;
 }
 
-export const addMachine = async (machine_id, machine_name, username, num_of_prod) => {
+export const addMachine = async (machine_id, machine_name, username, num_of_prod, phone) => {
   if (typeof username === 'undefined') {
     username = localStorage.getItem("username");
   }
@@ -114,7 +114,8 @@ export const addMachine = async (machine_id, machine_name, username, num_of_prod
     id: +machine_id,
     machine_name: machine_name,
     username: username,
-    num_of_prod: +num_of_prod
+    num_of_prod: +num_of_prod,
+    phone: phone
   };
   let config = {
     method: 'post',
@@ -193,12 +194,11 @@ export const deleteMachine = async (machine_id) => {
   return resp;
 }
 
-export const addUser = async (name, pass, phone) => {
+export const addUser = async (name, pass) => {
   let token = localStorage.getItem(TOKEN());
   let data = {
     username: name,
-    password: pass,
-    phone_number: phone
+    password: pass
   };
   let config = {
     method: 'post',
