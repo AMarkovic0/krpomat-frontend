@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -84,7 +85,7 @@ export default function EditMachine({ open, setOpen, machineData }) {
               }
             }}
           />
-          <p>
+          <Box component="section" sx={{ mt: 2 }}>
             <MuiTelInput
               label="Phone Number"
               forceCallingCode
@@ -93,7 +94,7 @@ export default function EditMachine({ open, setOpen, machineData }) {
               value={phone}
               onChange={onPhoneChanged}
             />
-          </p>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>CANCEL</Button>
