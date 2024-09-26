@@ -140,12 +140,13 @@ export const addMachine = async (machine_id, machine_name, username, num_of_prod
   return resp;
 }
 
-export const editMachine = async (machine_id, machine_name, num_of_prod) => {
+export const editMachine = async (machine_id, machine_name, num_of_prod, phone) => {
   let token = localStorage.getItem(TOKEN());
   let data = {
     id: +machine_id,
     machine_name: machine_name,
-    num_of_prod: +num_of_prod
+    num_of_prod: +num_of_prod,
+    phone
   };
   let config = {
     method: 'post',

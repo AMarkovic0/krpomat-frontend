@@ -7,13 +7,21 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import { MuiTelInput } from 'mui-tel-input';
+
 import { editMachine } from '../../../api';
 import { refreshPage } from '../../../utils';
 
 export default function EditMachine({ open, setOpen, machineData }) {
+  const [phone, setPhone] = React.useState('')
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  const onPhoneChanged = (newPhone) => {
+    setPhone(newPhone.replace(/\s/g, ''));
+  }
 
   return (
     <React.Fragment>
@@ -28,7 +36,12 @@ export default function EditMachine({ open, setOpen, machineData }) {
             const machine = Object.fromEntries(formData.entries());
 
             handleClose();
-            editMachine(machineData.machine_id, machine.name, machine.numOfProd).then((err) => {
+            editMachine(
+              machineData.machine_id,
+              machine.name,
+              machine.numOfProd,
+              phone
+            ).then((err) => {
               refreshPage();
             });
           },
@@ -71,6 +84,16 @@ export default function EditMachine({ open, setOpen, machineData }) {
               }
             }}
           />
+          <p>
+            <MuiTelInput
+              label="Phone Number"
+              forceCallingCode
+              defaultCountry="RS"
+              continents={['EU']}
+              value={phone}
+              onChange={onPhoneChanged}
+            />
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>CANCEL</Button>
