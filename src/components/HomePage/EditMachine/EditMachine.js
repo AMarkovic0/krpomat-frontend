@@ -14,7 +14,11 @@ import { editMachine } from '../../../api';
 import { refreshPage } from '../../../utils';
 
 export default function EditMachine({ open, setOpen, machineData }) {
-  const [phone, setPhone] = React.useState('')
+  const [phone, setPhone] = React.useState(machineData && machineData.phone_number || "")
+
+  React.useEffect(() => {
+    setPhone(machineData && machineData.phone_number || "")
+  }, [open]);
 
   const handleClose = () => {
     setOpen(false);
