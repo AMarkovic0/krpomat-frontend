@@ -21,7 +21,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 import { DeleteMachine } from './DeleteMachine/DeleteMachine';
 import { getMachines } from '../../../api';
-import { refreshPage, dateToIso } from '../../../utils';
+import { dateToIso } from '../../../utils';
 
 const MIN3 = 3*60000;
 const loadDateTime = (new Date()).getTime();
