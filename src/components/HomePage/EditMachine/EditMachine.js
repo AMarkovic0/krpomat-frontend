@@ -14,11 +14,11 @@ import { editMachine } from '../../../api';
 import { refreshPage } from '../../../utils';
 
 export default function EditMachine({ open, setOpen, machineData }) {
-  const [phone, setPhone] = React.useState(machineData && machineData.phone_number || "")
+  const [phone, setPhone] = React.useState(machineData ? machineData.phone_number : "")
 
   React.useEffect(() => {
-    setPhone(machineData && machineData.phone_number || "")
-  }, [open]);
+    setPhone(machineData ? machineData.phone_number : "")
+  }, [open, machineData]);
 
   const handleClose = () => {
     setOpen(false);
@@ -67,7 +67,7 @@ export default function EditMachine({ open, setOpen, machineData }) {
             type="text"
             fullWidth
             variant="standard"
-            defaultValue={machineData && machineData.machine_name || ""}
+            defaultValue={machineData ? machineData.machine_name : ""}
           />
           <TextField
             autoFocus
@@ -82,7 +82,7 @@ export default function EditMachine({ open, setOpen, machineData }) {
             InputProps={{
                inputProps: { min: 1 }
             }}
-            defaultValue={machineData && machineData.num_of_prod || 3}
+            defaultValue={machineData ? machineData.num_of_prod : 3}
             onKeyPress={(event) => {
               if (event?.key === '-' || event?.key === '+') {
                 event.preventDefault();
