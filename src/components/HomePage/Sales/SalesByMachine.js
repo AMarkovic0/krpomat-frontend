@@ -71,7 +71,7 @@ function Row(props) {
         </TableCell>
         {localStorage.getItem("username") === "admin" ?
           <TableCell align="left">{row.username}</TableCell> :
-          <p/>
+          <TableCell/>
         }
         <TableCell component="th" scope="row">
           {row.machine_name}
@@ -108,7 +108,7 @@ function Row(props) {
           <TableCell>
             <DeleteMachine machine_id={row.machine_id}/>
           </TableCell> :
-          <p/>
+          <TableCell/>
         }
       </TableRow>
       <TableRow>
@@ -271,7 +271,7 @@ export function SalesByMachine({ sales, openSettings, setSettingsMachineData }) 
             <TableCell>Online Status</TableCell>
             {localStorage.getItem("username") === "admin" ?
               <TableCell align="left">User Name</TableCell> :
-              <p/>
+              <TableCell/>
             }
             <TableCell>Machine Name</TableCell>
             <TableCell align="right">Product 1</TableCell>
