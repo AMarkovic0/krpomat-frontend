@@ -66,8 +66,8 @@ function DrawerAppBar(props) {
   const [machineData, setSettingsMachineData] = React.useState();
 
   const navItems = (localStorage.getItem("username") === "admin") ?
-    [ 'ADD USER', 'SALES', 'ADD MACHINE', 'LOG OUT'] :
-    [ 'SALES', 'ADD MACHINE', 'LOG OUT'];
+    [ 'ADD USER', 'ADD MACHINE', 'LOG OUT'] :
+    [ 'ADD MACHINE', 'LOG OUT'];
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
