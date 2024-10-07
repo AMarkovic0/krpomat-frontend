@@ -34,29 +34,11 @@ import { refreshPage } from "../../utils";
 
 const drawerWidth = 240;
 
-function getToday() {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const year = today.getFullYear();
-  const date = today.getDate();
-  return `${date}.${month}.${year}.`;
-}
-
-function toDotDateFormat(date) {
-  if(typeof date === 'string' || date instanceof String) {
-    return date
-  }
-
-  return date.format("DD.MM.YYYY.");
-}
-
 function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [displayItem, setDisplayItem] = React.useState("SALES");
   const [sales, setSales] = React.useState([]);
-  const [startDate, setStartDate] = React.useState("01.01.1980.");
-  const [endDate, setEndDate] = React.useState(getToday());
   const [showByMachine, setShowByMachine] = React.useState(true);
   const [showRecord, setShowRecord] = React.useState(false);
 
@@ -113,24 +95,6 @@ function DrawerAppBar(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-
-  React.useEffect(() => {
-    getSales({
-      start_date : toDotDateFormat(startDate),
-      end_date : toDotDateFormat(endDate),
-    }).then((resp) => {
-      setSales(resp);
-    })
-  }, []);
-
-  function getSalesData() {
-    getSales({
-      start_date : toDotDateFormat(startDate),
-      end_date : toDotDateFormat(endDate),
-    }).then((resp) => {
-      setSales(resp)
-    });
-  }
 
   const processForCSV = (sales) => {
     sales.map((sale) => {
@@ -208,15 +172,9 @@ function DrawerAppBar(props) {
             <div>
               <Box sx={{ p: 3 }}>
                 <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
-                  <Grid item>
-                    <DateSelector name="Start Date" onSet={setStartDate}/>
-                  </Grid>
-                  <Grid item>
-                    <DateSelector name="End Date" onSet={setEndDate}/>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" onClick={getSalesData}>CONFIRM</Button>
-                  </Grid>
+		  <Grid item>
+		    <DateSelector setData={setSales} getData={getSales}/>
+		  </Grid>
                   <Grid item>
                     <CSVLink
                       data={processForCSV(sales)}
