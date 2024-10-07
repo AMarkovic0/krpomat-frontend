@@ -69,10 +69,10 @@ export default function DateSelector({ setData, getData }) {
   return (
     <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
       <Grid item>
-        <BasicDatePicker name="Start Date" onSet={setStartDate}/>
+        <BasicDatePicker name="From" onSet={setStartDate}/>
       </Grid>
       <Grid item>
-        <BasicDatePicker name="End Date" onSet={setEndDate}/>
+        <BasicDatePicker name="To" onSet={setEndDate}/>
       </Grid>
       <Grid item>
         <Button variant="contained" onClick={getSalesData}>CONFIRM</Button>
