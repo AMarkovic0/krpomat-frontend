@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Password from "../../Password/Password";
 import { addUser } from '../../../api';
 
-export default function AddMachine({ open, setOpen }) {
+export default function AddUser({ open, setOpen }) {
 
   const handleClose = () => {
     setOpen(false);
