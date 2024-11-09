@@ -171,6 +171,70 @@ export const editMachine = async (machine_id, machine_name, num_of_prod, phone) 
   return resp;
 }
 
+export const editUsername = async (old_uname, new_uname) => {
+  let token = localStorage.getItem(TOKEN());
+  let data = {
+    old_username: old_uname,
+    new_username: new_uname
+  };
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: HOST + '/EditUsername',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    },
+    data: data
+  };
+  let resp = {};
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
+    resp = error;
+  });
+
+  return resp;
+
+}
+
+export const editPassword = async (uname, new_pass) => {
+  if (localStorage.getItem("username") !== "admin") {
+    return {};
+  }
+
+  let token = localStorage.getItem(TOKEN());
+  let data = {
+    username: uname,
+    password: new_pass
+  };
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: HOST + '/EditPassword',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-HTTP-Method-Override' : 'GET'
+    },
+    data: data
+  };
+  let resp = {};
+
+  await axios.request(config)
+  .then((response) => {
+    resp = response.data;
+  })
+  .catch((error) => {
+    resp = error;
+  });
+
+  return resp;
+
+}
+
 export const deleteMachine = async (machine_id) => {
   let token = localStorage.getItem(TOKEN());
   let config = {

@@ -27,7 +27,7 @@ import LinearIndeterminate from "./LoadBar/LoadBar";
 import DateSelector from "./DateSelector/DateSelector";
 import AddMachine from "./AddMachine/AddMachine";
 import EditMachine from "./EditMachine/EditMachine";
-import AddUser from "./AddUser/AddUser";
+import EditUser from "./EditUser/EditUser";
 
 import { getSales } from '../../api';
 import { refreshPage } from "../../utils";
@@ -48,7 +48,7 @@ function DrawerAppBar(props) {
   const [machineData, setSettingsMachineData] = React.useState();
 
   const navItems = (localStorage.getItem("username") === "admin") ?
-    [ 'ADD USER', 'ADD MACHINE', 'LOG OUT'] :
+    [ 'ADD USER', 'EDIT USER','ADD MACHINE', 'LOG OUT'] :
     [ 'ADD MACHINE', 'LOG OUT'];
 
   const handleDrawerToggle = () => {
@@ -64,7 +64,7 @@ function DrawerAppBar(props) {
       refreshPage();
     } else {
       setDialogOpen(item === "ADD MACHINE");
-      setDialogOpenUsr(item === "ADD USER");
+      setDialogOpenUsr(item === "ADD USER" || item === "EDIT USER");
       setDisplayItem(item);
     }
   }
@@ -168,7 +168,10 @@ function DrawerAppBar(props) {
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
         <Box>
-          {displayItem === "SALES" || displayItem === "ADD MACHINE" || displayItem === "ADD USER" ?
+          {displayItem === "SALES" ||
+	   displayItem === "ADD MACHINE" ||
+	   displayItem === "ADD USER" ||
+	   displayItem === "EDIT USER" ?
             <div>
               <Box sx={{ p: 3 }}>
                 <Grid container justify="center"  direction="row" spacing={3} alignItems="center">
@@ -233,7 +236,11 @@ function DrawerAppBar(props) {
             setOpen={setDialogOpenEdit}
             machineData={machineData}
           />
-          <AddUser open={dialogOpenUsr} setOpen={setDialogOpenUsr}/>
+          <EditUser
+	    open={dialogOpenUsr}
+	    setOpen={setDialogOpenUsr}
+	    action={displayItem === "ADD USER" ? "add" : "edit"}
+	  />
           {displayItem === "LOG OUT" ? <span>LOG OUT</span> : <span/>}
         </Box>
       </Box>
