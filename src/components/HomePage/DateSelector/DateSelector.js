@@ -21,9 +21,14 @@ function getToday() {
 function getDefaultStartDate() {
   const today = new Date();
 
-  const month = today.getMonth();
-  const year = today.getFullYear();
+  let month = today.getMonth();
+  let year = today.getFullYear();
   const date = today.getDate();
+
+  if (month == 0) {
+    month = 12;
+    year = year - 1;
+  }
 
   return `${date}.${month}.${year}.`;
 }
